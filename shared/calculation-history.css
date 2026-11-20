@@ -1,0 +1,580 @@
+/* ==================================================
+   CALCULATION HISTORY STYLESHEET START
+   Styling for the saved calculation history panel.
+   Here is the styling of the history panel.
+================================================== */
+/* Shared calculation-history UI for every weight calculator page. */
+
+:root {
+    --history-primary: var(--primary, #087f7b);
+    --history-primary-dark: var(--primary-dark, #05635f);
+    --history-ink: var(--text, #182b32);
+    --history-muted: var(--muted, #718087);
+    --history-border: var(--border, #e0e8e9);
+    --history-soft: #eef8f7;
+    --history-soft-strong: #e2f3f1;
+}
+
+/* Header trigger ------------------------------------------------------- */
+
+/* ==================================================
+   HEADER LAYOUT STYLING START
+   Styling rules for this part of the interface.
+   Here the layout of the header is controlled.
+================================================== */
+.header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    gap: 12px;
+    background: var(--bg, #f4f7f8);
+}
+/* ==================================================
+   HEADER LAYOUT STYLING END
+   This styling ends here.
+================================================== */
+
+.header .brand {
+    flex: 1 1 auto;
+}
+
+.history-trigger {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    flex-shrink: 0;
+    margin-left: 0;
+    padding: 9px 12px;
+    border: 1px solid #cfe4e2;
+    border-radius: 9px;
+    background: #ffffff;
+    color: var(--history-primary-dark);
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1;
+    cursor: pointer;
+    transition: background 0.18s ease, border-color 0.18s ease,
+        box-shadow 0.18s ease, transform 0.18s ease;
+}
+
+.history-trigger:hover {
+    background: var(--history-soft);
+    border-color: #b5dcd8;
+    box-shadow: 0 2px 8px rgba(8, 127, 123, 0.08);
+}
+
+.history-trigger:active {
+    transform: translateY(1px);
+}
+
+.history-trigger:focus-visible {
+    outline: 2px solid var(--history-primary);
+    outline-offset: 2px;
+}
+
+.history-trigger svg {
+    width: 17px;
+    height: 17px;
+    flex-shrink: 0;
+}
+
+.history-trigger-label {
+    white-space: nowrap;
+}
+
+.history-count {
+    display: inline-grid;
+    place-items: center;
+    min-width: 18px;
+    height: 18px;
+    padding: 0 5px;
+    border-radius: 999px;
+    background: var(--history-primary);
+    color: #ffffff;
+    font-size: 10px;
+    font-weight: 800;
+    line-height: 1;
+}
+
+.history-count[hidden] {
+    display: none;
+}
+
+/* Drawer --------------------------------------------------------------- */
+
+body.history-open {
+    overflow: hidden;
+}
+
+.history-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 9998;
+    background: rgba(17, 38, 43, 0.42);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.26s ease, visibility 0.26s ease;
+}
+
+.history-overlay.is-open {
+    opacity: 1;
+    visibility: visible;
+}
+
+.history-panel {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    width: min(430px, 100vw);
+    height: 100vh;
+    height: 100dvh;
+    background: #ffffff;
+    border-left: 1px solid var(--history-border);
+    box-shadow: -18px 0 55px rgba(19, 43, 48, 0.2);
+    color: var(--history-ink);
+    font-family: inherit;
+    transform: translateX(102%);
+    visibility: hidden;
+    transition: transform 0.26s ease, visibility 0.26s ease;
+}
+
+.history-panel.is-open {
+    transform: translateX(0);
+    visibility: visible;
+}
+
+.history-panel-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 14px;
+    flex-shrink: 0;
+    padding: 22px 20px 16px;
+    border-bottom: 1px solid var(--history-border);
+}
+
+.history-panel-heading {
+    min-width: 0;
+}
+
+.history-eyebrow {
+    margin: 0 0 4px;
+    color: var(--history-primary);
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.9px;
+    line-height: 1.3;
+    text-transform: uppercase;
+}
+
+.history-panel h2 {
+    margin: 0;
+    color: var(--history-ink);
+    font-size: 21px;
+    font-weight: 800;
+    letter-spacing: -0.2px;
+    line-height: 1.2;
+}
+
+.history-subtitle {
+    margin: 6px 0 0;
+    color: var(--history-muted);
+    font-size: 12px;
+    line-height: 1.45;
+}
+
+.history-close {
+    display: inline-grid;
+    place-items: center;
+    width: 36px;
+    height: 36px;
+    flex-shrink: 0;
+    padding: 0;
+    border: 1px solid var(--history-border);
+    border-radius: 9px;
+    background: #f7fafa;
+    color: var(--history-ink);
+    cursor: pointer;
+    transition: background 0.18s ease, border-color 0.18s ease;
+}
+
+.history-close:hover {
+    background: var(--history-soft);
+    border-color: #c4e1de;
+}
+
+.history-close:focus-visible {
+    outline: 2px solid var(--history-primary);
+    outline-offset: 2px;
+}
+
+.history-close svg {
+    width: 18px;
+    height: 18px;
+}
+
+.history-list {
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow-x: hidden;
+    overflow-y: auto;
+    padding: 14px 18px 20px;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* Empty state ---------------------------------------------------------- */
+
+.history-empty {
+    display: grid;
+    place-items: center;
+    gap: 7px;
+    margin-top: 8px;
+    padding: 34px 18px;
+    border: 1px dashed #cfe3e1;
+    border-radius: 12px;
+    background: #fbfdfd;
+    text-align: center;
+}
+
+.history-empty-icon {
+    display: inline-grid;
+    place-items: center;
+    width: 38px;
+    height: 38px;
+    border-radius: 999px;
+    background: var(--history-soft);
+    color: var(--history-primary);
+}
+
+.history-empty-icon svg {
+    width: 19px;
+    height: 19px;
+}
+
+.history-empty strong {
+    color: var(--history-ink);
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.history-empty span {
+    color: var(--history-muted);
+    font-size: 11.5px;
+    line-height: 1.45;
+}
+
+/* Records -------------------------------------------------------------- */
+
+.history-record {
+    margin-bottom: 10px;
+    border: 1px solid var(--history-border);
+    border-radius: 11px;
+    background: #ffffff;
+    overflow: hidden;
+}
+
+.history-record:last-child {
+    margin-bottom: 0;
+}
+
+.history-record[open] {
+    border-color: #b9ded9;
+    box-shadow: 0 3px 14px rgba(8, 127, 123, 0.06);
+}
+
+.history-record-summary {
+    position: relative;
+    padding: 11px 34px 11px 13px;
+    list-style: none;
+    cursor: pointer;
+}
+
+.history-record-summary::-webkit-details-marker {
+    display: none;
+}
+
+.history-record-summary:focus-visible {
+    outline: 2px solid var(--history-primary);
+    outline-offset: -2px;
+}
+
+.history-record-main {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 0;
+}
+
+.history-record-name {
+    color: var(--history-ink);
+    font-size: 13px;
+    font-weight: 800;
+    line-height: 1.3;
+    overflow-wrap: anywhere;
+}
+
+.history-record-line {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: start;
+    column-gap: 12px;
+    min-width: 0;
+}
+
+.history-record-size {
+    min-width: 0;
+    color: var(--history-ink);
+    font-size: 11.5px;
+    font-weight: 600;
+    line-height: 1.45;
+    overflow-wrap: anywhere;
+}
+
+.history-record-weight {
+    max-width: 48%;
+    color: var(--history-primary-dark);
+    font-size: 12px;
+    font-weight: 800;
+    line-height: 1.45;
+    text-align: right;
+    justify-self: end;
+    overflow-wrap: anywhere;
+}
+
+.history-record-chevron {
+    position: absolute;
+    top: 50%;
+    right: 12px;
+    display: inline-grid;
+    place-items: center;
+    color: var(--history-muted);
+    transform: translateY(-50%);
+    transition: transform 0.18s ease;
+}
+
+.history-record-chevron svg {
+    width: 15px;
+    height: 15px;
+}
+
+.history-record[open] .history-record-chevron {
+    transform: translateY(-50%) rotate(180deg);
+}
+
+.history-record-body {
+    padding: 0 14px 14px;
+    border-top: 1px solid #edf4f3;
+    background: #fbfdfd;
+}
+
+.history-section-title {
+    margin: 13px 0 8px;
+    color: var(--history-primary-dark);
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.8px;
+    line-height: 1.3;
+    text-transform: uppercase;
+}
+
+.history-dimensions,
+.history-meta {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 7px 9px;
+    margin: 0;
+}
+
+.history-dimensions > div,
+.history-meta > div {
+    min-width: 0;
+    padding: 8px 9px;
+    border: 1px solid #e7efee;
+    border-radius: 7px;
+    background: #ffffff;
+}
+
+.history-dimensions dt,
+.history-meta dt {
+    margin: 0 0 2px;
+    color: var(--history-muted);
+    font-size: 10px;
+    line-height: 1.35;
+    overflow-wrap: anywhere;
+}
+
+.history-dimensions dd,
+.history-meta dd {
+    margin: 0;
+    color: var(--history-ink);
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1.4;
+    overflow-wrap: anywhere;
+}
+
+.history-meta {
+    margin-top: 9px;
+    padding-top: 9px;
+    border-top: 1px dashed #dce9e7;
+}
+
+.history-meta > div:last-child {
+    grid-column: 1 / -1;
+    border-color: #cfe7e4;
+    background: var(--history-soft);
+}
+
+.history-meta > div:last-child dd {
+    color: var(--history-primary-dark);
+    font-size: 14px;
+    font-weight: 800;
+}
+
+/* Footer --------------------------------------------------------------- */
+
+.history-footer {
+    flex-shrink: 0;
+    padding: 12px 18px calc(12px + env(safe-area-inset-bottom));
+    border-top: 1px solid var(--history-border);
+    background: #ffffff;
+}
+
+.history-clear {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1px solid #f0cccc;
+    border-radius: 8px;
+    background: #fff8f8;
+    color: #b93636;
+    font-family: inherit;
+    font-size: 12.5px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.18s ease, border-color 0.18s ease;
+}
+
+.history-clear:hover:not(:disabled) {
+    background: #fff0f0;
+    border-color: #e8b4b4;
+}
+
+.history-clear:focus-visible {
+    outline: 2px solid #dc4545;
+    outline-offset: 2px;
+}
+
+.history-clear:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+}
+
+/* Small screens -------------------------------------------------------- */
+
+/* ==================================================
+   MOBILE RESPONSIVE STYLING (MAX-WIDTH) START
+   Layout changes for this screen size range.
+   Here are the layout changes for small and large screens.
+================================================== */
+@media (max-width: 520px) {
+    .history-panel {
+        width: 100vw;
+        border-left: 0;
+    }
+
+    .history-trigger,
+    .history-close,
+    .history-clear {
+        min-height: 44px;
+    }
+
+    .history-panel-header {
+        padding: 18px 16px 14px;
+    }
+
+    .history-list {
+        padding: 12px 12px 16px;
+    }
+
+    .history-footer {
+        padding: 10px 12px calc(10px + env(safe-area-inset-bottom));
+    }
+
+    .history-record-summary {
+        padding: 11px 32px 11px 12px;
+    }
+
+    .history-record-line {
+        column-gap: 9px;
+    }
+
+    .history-record-weight {
+        max-width: 50%;
+        font-size: 11.5px;
+    }
+}
+/* ==================================================
+   MOBILE RESPONSIVE STYLING (MAX-WIDTH) END
+   This responsive styling ends here.
+================================================== */
+
+/* ==================================================
+   MOBILE RESPONSIVE STYLING (MAX-WIDTH) START
+   Layout changes for this screen size range.
+   Here are the layout changes for small and large screens.
+================================================== */
+@media (max-width: 360px) {
+    .history-trigger {
+        gap: 6px;
+        padding: 8px 10px;
+        font-size: 11.5px;
+    }
+
+    .history-trigger svg {
+        width: 16px;
+        height: 16px;
+    }
+
+    .history-dimensions,
+    .history-meta {
+        grid-template-columns: 1fr;
+    }
+
+    .history-meta > div:last-child {
+        grid-column: auto;
+    }
+}
+/* ==================================================
+   MOBILE RESPONSIVE STYLING (MAX-WIDTH) END
+   This responsive styling ends here.
+================================================== */
+
+/* ==================================================
+   MOBILE RESPONSIVE STYLING (MIN-WIDTH) START
+   Layout changes for this screen size range.
+   Here are the layout changes for small and large screens.
+================================================== */
+@media (prefers-reduced-motion: reduce) {
+    .history-panel,
+    .history-overlay,
+    .history-record-chevron,
+    .history-trigger {
+        transition: none;
+    }
+}
+/* ==================================================
+   MOBILE RESPONSIVE STYLING (MIN-WIDTH) END
+   This responsive styling ends here.
+================================================== */
+
+/* ==================================================
+   CALCULATION HISTORY STYLESHEET END
+   This CSS file ends here.
+================================================== */

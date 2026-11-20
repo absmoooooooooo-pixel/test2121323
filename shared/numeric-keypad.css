@@ -1,0 +1,149 @@
+/* ==================================================
+   NUMERIC KEYPAD STYLESHEET START
+   In-page numeric keyboard for phones and tablets.
+
+   Every rule here is scoped to .nk-panel, so the rest of the
+   site keeps its existing look. Colours come from each page's
+   own theme variables with the site palette as the fallback.
+================================================== */
+
+.nk-panel {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 10030;
+    padding: 10px 12px calc(12px + env(safe-area-inset-bottom, 0px));
+    background: #ffffff;
+    border-top: 1px solid #e6ebed;
+    border-radius: 20px 20px 0 0;
+    box-shadow: 0 -10px 30px rgba(16, 42, 50, .16), 0 -2px 6px rgba(16, 42, 50, .06);
+    transform: translateY(110%);
+    visibility: hidden;
+    transition: transform .22s ease, visibility 0s linear .22s;
+    touch-action: manipulation;
+    overscroll-behavior: contain;
+    -webkit-tap-highlight-color: transparent;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.nk-panel.is-open {
+    transform: translateY(0);
+    visibility: visible;
+    transition: transform .22s ease, visibility 0s linear 0s;
+}
+
+.nk-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 8px;
+    width: 100%;
+    max-width: 460px;
+    margin: 0 auto;
+}
+
+.nk-key {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 0;
+    height: 54px;
+    padding: 0;
+    border: 1px solid #e3e8ea;
+    border-radius: 13px;
+    background: #ffffff;
+    color: #101b1f;
+    font: 600 23px/1 Arial, Helvetica, sans-serif;
+    box-shadow: 0 1px 2px rgba(16, 42, 50, .07), 0 3px 8px rgba(16, 42, 50, .05);
+    cursor: pointer;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+    transition: transform .08s ease, box-shadow .12s ease, background .12s ease;
+}
+
+.nk-key:active {
+    transform: translateY(1px);
+    box-shadow: 0 1px 2px rgba(16, 42, 50, .1);
+}
+
+.nk-key:focus-visible {
+    outline: 2px solid var(--primary, #087f7b);
+    outline-offset: 2px;
+}
+
+/* Light grey special keys: backspace and decimal point. */
+.nk-key--special {
+    background: #eef1f2;
+    border-color: #e2e7e9;
+    color: #33403f;
+}
+
+.nk-key--special svg {
+    display: block;
+    width: 26px;
+    height: 26px;
+}
+
+/* The site's primary action colour, as used by the Calculate button. */
+.nk-key--next {
+    background: var(--primary, #087f7b);
+    border-color: transparent;
+    color: #ffffff;
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: .3px;
+    text-transform: none;
+    box-shadow: 0 2px 6px rgba(8, 127, 123, .28);
+}
+
+.nk-key--next:active {
+    background: var(--primary-dark, #05635f);
+}
+
+/* Empty cells keep the 4 by 4 rhythm of the reference layout. */
+.nk-key--empty {
+    background: transparent;
+    border-color: transparent;
+    box-shadow: none;
+    pointer-events: none;
+}
+
+/* The field being typed in, so the user can see where the digits go. */
+input.nk-active {
+    border-color: var(--primary, #087f7b) !important;
+    box-shadow: 0 0 0 3px rgba(8, 127, 123, .14);
+}
+
+@media (max-width: 420px) {
+    .nk-panel {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+    .nk-grid {
+        gap: 7px;
+    }
+
+    .nk-key {
+        height: 50px;
+        font-size: 21px;
+        border-radius: 12px;
+    }
+
+    .nk-key--next {
+        font-size: 15px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .nk-panel,
+    .nk-key {
+        transition: none;
+    }
+}
+
+/* ==================================================
+   NUMERIC KEYPAD STYLESHEET END
+================================================== */

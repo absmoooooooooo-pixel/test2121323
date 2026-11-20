@@ -1,0 +1,484 @@
+/* ==================================================
+   SHARED TITLE RIBBON STYLESHEET START
+   The one header ribbon used by the home page and every calculator.
+   Here is the same header design that all pages share.
+================================================== */
+/* The site title ribbon.
+
+   This one component is used by the home page and by every calculator page:
+   the white ribbon behind the branding, its wordmark, its tagline and the
+   compact action row underneath. The calculator pages and the home page only
+   differ in the text they show, never in the ribbon's size, spacing or type.
+
+   The ribbon shows only the website branding/title. All action buttons
+   (Feedback, Download App, All Tools, History) stay in one separate row
+   directly below the ribbon on every screen size. */
+
+.container {
+    padding-top: 0 !important;
+}
+
+/* ==================================================
+   HEADER LAYOUT STYLING START
+   Styling rules for this part of the interface.
+   Here the layout of the header is controlled.
+================================================== */
+.header {
+    position: -webkit-sticky !important;
+    position: sticky !important;
+    top: env(safe-area-inset-top, 0px) !important;
+    z-index: 1200 !important;
+    /* Page colour behind the button row: the buttons read as below the ribbon. */
+    background: var(--bg, #f4f7f8) !important;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    margin-top: 0;
+    margin-bottom: 0;
+    display: flex !important;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-items: stretch;
+    justify-content: flex-end;
+    /* Balanced spacing: the ribbon's white band ends 8px below the branding,
+       so a 16px gap leaves 8px above the buttons, equal to the 8px padding
+       below them. */
+    row-gap: 16px;
+}
+/* ==================================================
+   HEADER LAYOUT STYLING END
+   This styling ends here.
+================================================== */
+
+/* The main ribbon is the branding row only (see .brand::before below). */
+.header::before {
+    content: none;
+}
+
+.header .brand {
+    position: relative;
+    flex: 0 0 auto;
+    width: 100%;
+    min-width: 0;
+    margin-right: 0;
+}
+
+/* White ribbon behind the branding only, bleeding to the screen edges
+   exactly like the homepage app bar. It mirrors the header's own padding,
+   so the logo keeps the same clear space above and below it. */
+.header .brand::before {
+    content: "";
+    position: absolute;
+    top: -8px;
+    bottom: -8px;
+    left: 50%;
+    width: 100vw;
+    transform: translateX(-50%);
+    background: #ffffff;
+    border-bottom: 1px solid rgba(210, 230, 226, .82);
+    z-index: -1;
+    pointer-events: none;
+}
+
+/* Always one row, centered within the page content container: four equal
+   columns, no wrapping. The buttons stay outside and below the ribbon. */
+.header-actions-group {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(0, 1fr);
+    gap: 6px;
+    width: 100%;
+    max-width: 100%;
+    margin-left: 0;
+    flex: 0 0 auto;
+}
+
+.header .header-actions-group .feedback-btn,
+.header .header-actions-group .add-shortcut-btn,
+.header .header-actions-group .home-pill,
+.header .header-actions-group .history-trigger {
+    width: 100%;
+    min-width: 0;
+    min-height: 36px;
+    margin: 0 !important;
+    padding: 2px 8px;
+    font-size: 11.5px;
+    line-height: 1.2;
+    gap: 5px;
+    white-space: nowrap;
+    overflow: hidden;
+    justify-content: center;
+}
+
+.header .header-actions-group .feedback-btn svg,
+.header .header-actions-group .add-shortcut-btn svg,
+.header .header-actions-group .home-pill svg,
+.header .header-actions-group .history-trigger svg {
+    width: 15px;
+    height: 15px;
+    flex: 0 0 auto;
+}
+
+.header .header-actions-group .feedback-label,
+.header .header-actions-group .add-shortcut-label {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Responsive engineering-drawing composition: keep dimension labels readable
+   and give the side-by-side views as much room as possible on small screens.
+   Complements the per-page diagram rules without changing geometry. */
+/* ==================================================
+   MOBILE RESPONSIVE STYLING (MAX-WIDTH) START
+   Layout changes for this screen size range.
+   Here are the layout changes for small and large screens.
+================================================== */
+@media (max-width: 640px) {
+    .diagram-view {
+        max-width: none;
+    }
+
+    .diagram-views {
+        gap: 8px;
+    }
+}
+/* ==================================================
+   MOBILE RESPONSIVE STYLING (MAX-WIDTH) END
+   This responsive styling ends here.
+================================================== */
+
+/* ==================================================
+   MOBILE RESPONSIVE STYLING (MAX-WIDTH) START
+   Layout changes for this screen size range.
+   Here are the layout changes for small and large screens.
+================================================== */
+@media (max-width: 520px) {
+    .diagram-views {
+        gap: 4px;
+    }
+}
+/* ==================================================
+   MOBILE RESPONSIVE STYLING (MAX-WIDTH) END
+   This responsive styling ends here.
+================================================== */
+
+/* Dimension labels: proportional sizing that scales with the drawing (SVG
+   viewBox). Text must be separated from dimension lines by actual line gaps
+   in the SVG, not by a background stroke/hide effect. */
+.diagram-view text[fill="#087f7b"] {
+    font-size: 15px;
+}
+
+.diagram-view text[fill="#718087"],
+.diagram-view text[fill="#24383d"] {
+    font-size: 13px;
+}
+
+/* Responsive dimension-label sizing: SVG text font-size is in viewBox user
+   units (scales with the drawing/SVG viewBox). On narrow screens the rendered
+   scale is smaller, so labels are bumped in user units to stay readable while
+   remaining proportional on tablet/desktop. */
+/* ==================================================
+   MOBILE RESPONSIVE STYLING (MAX-WIDTH) START
+   Layout changes for this screen size range.
+   Here are the layout changes for small and large screens.
+================================================== */
+@media (max-width: 640px) {
+    .diagram-view text[fill="#087f7b"] {
+        font-size: 18px;
+    }
+
+    .diagram-view text[fill="#718087"] {
+        font-size: 14px;
+    }
+
+    .diagram-view text[fill="#24383d"] {
+        font-size: 14px;
+    }
+}
+/* ==================================================
+   MOBILE RESPONSIVE STYLING (MAX-WIDTH) END
+   This responsive styling ends here.
+================================================== */
+
+/* ==================================================
+   MOBILE RESPONSIVE STYLING (MAX-WIDTH) START
+   Layout changes for this screen size range.
+   Here are the layout changes for small and large screens.
+================================================== */
+@media (max-width: 420px) {
+    .diagram-view text[fill="#087f7b"] {
+        font-size: 19px;
+    }
+
+    .diagram-view text[fill="#718087"] {
+        font-size: 14px;
+    }
+
+    .diagram-view text[fill="#24383d"] {
+        font-size: 14px;
+    }
+}
+/* ==================================================
+   MOBILE RESPONSIVE STYLING (MAX-WIDTH) END
+   This responsive styling ends here.
+================================================== */
+
+/* Phones: tighter paddings/type so all four labels stay complete in that one
+   row instead of shrinking the buttons unevenly. */
+/* ==================================================
+   MOBILE RESPONSIVE STYLING (MAX-WIDTH) START
+   Layout changes for this screen size range.
+   Here are the layout changes for small and large screens.
+================================================== */
+@media (max-width: 520px) {
+    .header-actions-group {
+        gap: 5px;
+    }
+
+    .header .header-actions-group .feedback-btn,
+    .header .header-actions-group .add-shortcut-btn,
+    .header .header-actions-group .home-pill,
+    .header .header-actions-group .history-trigger {
+        padding: 0 6px;
+        font-size: 10.5px;
+        gap: 4px;
+    }
+
+    .header .header-actions-group .feedback-btn svg,
+    .header .header-actions-group .add-shortcut-btn svg,
+    .header .header-actions-group .home-pill svg,
+    .header .header-actions-group .history-trigger svg {
+        width: 14px;
+        height: 14px;
+    }
+
+    /* The count must not make the History button taller than its three
+       neighbours. Pin it to the corner instead of adding a fourth flex row. */
+    .header .header-actions-group .history-trigger {
+        position: relative;
+    }
+
+    .header .header-actions-group .history-count {
+        position: absolute;
+        top: 2px;
+        right: 3px;
+        min-width: 14px;
+        height: 14px;
+        padding: 0 3px;
+        font-size: 9px;
+    }
+}
+/* ==================================================
+   MOBILE RESPONSIVE STYLING (MAX-WIDTH) END
+   This responsive styling ends here.
+================================================== */
+
+/* Narrow phones: the icon sits above its label so all four buttons still fit
+   in one row without clipping any label. */
+/* ==================================================
+   MOBILE RESPONSIVE STYLING (MAX-WIDTH) START
+   Layout changes for this screen size range.
+   Here are the layout changes for small and large screens.
+================================================== */
+@media (max-width: 460px) {
+    .header-actions-group {
+        gap: 5px;
+    }
+
+    .header .header-actions-group .feedback-btn,
+    .header .header-actions-group .add-shortcut-btn,
+    .header .header-actions-group .home-pill,
+    .header .header-actions-group .history-trigger {
+        flex-direction: column;
+        min-height: 38px;
+        padding: 3px 3px;
+        gap: 1px;
+        font-size: 10px;
+        line-height: 1.1;
+        text-align: center;
+    }
+
+    .header .header-actions-group .feedback-btn svg,
+    .header .header-actions-group .add-shortcut-btn svg,
+    .header .header-actions-group .home-pill svg,
+    .header .header-actions-group .history-trigger svg {
+        width: 14px;
+        height: 14px;
+    }
+}
+/* ==================================================
+   MOBILE RESPONSIVE STYLING (MAX-WIDTH) END
+   This responsive styling ends here.
+================================================== */
+
+/* Smallest phones (e.g. 320px Android): slightly tighter type and gaps so the
+   longest label ("Download App") still fits in its own column, in one row. */
+/* ==================================================
+   MOBILE RESPONSIVE STYLING (MAX-WIDTH) START
+   Layout changes for this screen size range.
+   Here are the layout changes for small and large screens.
+================================================== */
+@media (max-width: 349px) {
+    .header-actions-group {
+        gap: 4px;
+    }
+
+    .header .header-actions-group .feedback-btn,
+    .header .header-actions-group .add-shortcut-btn,
+    .header .header-actions-group .home-pill,
+    .header .header-actions-group .history-trigger {
+        min-height: 36px;
+        padding: 2px 1px;
+        font-size: 9px;
+    }
+
+    .header .header-actions-group .feedback-btn svg,
+    .header .header-actions-group .add-shortcut-btn svg,
+    .header .header-actions-group .home-pill svg,
+    .header .header-actions-group .history-trigger svg {
+        width: 13px;
+        height: 13px;
+    }
+}
+/* ==================================================
+   MOBILE RESPONSIVE STYLING (MAX-WIDTH) END
+   This responsive styling ends here.
+================================================== */
+
+/* -------------------------------------------------------------------------
+   Ribbon content: wordmark, logo and tagline.
+   Shared by the home page and every calculator page, so the title ribbon is
+   one component everywhere. These are the calculator ribbon's exact values.
+   ------------------------------------------------------------------------- */
+
+.header .brand {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    min-width: 0;
+}
+
+.header .brand > div {
+    min-width: 0;
+}
+
+.header .logo {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    height: 42px;
+}
+
+.header .logo img {
+    display: block;
+    height: 100%;
+    width: auto;
+}
+
+.header .brand h1 {
+    margin: 0;
+    color: #182b32;
+    font-size: 21px;
+    font-weight: 700;
+    line-height: 1.2;
+    overflow-wrap: break-word;
+}
+
+.header .brand p {
+    margin: 0;
+    color: #718087;
+    font-size: 11px;
+    font-weight: 400;
+    line-height: 1.45;
+}
+
+/* About Us / All Tools pill: one look on every page. */
+.header .home-pill {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    min-height: 38px;
+    padding: 8px 11px;
+    border: 1px solid var(--border, #d5e5e2);
+    border-radius: 9px;
+    background: #ffffff;
+    color: var(--primary-dark, #05514e);
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.header .home-pill:hover {
+    background: #eef8f7;
+    border-color: #b5dcd8;
+}
+
+.header .home-pill svg {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+}
+
+/* Phones: the ribbon keeps comfortable space from both screen edges. */
+/* ==================================================
+   MOBILE RESPONSIVE STYLING (MAX-WIDTH) START
+   Layout changes for this screen size range.
+   Here are the layout changes for small and large screens.
+================================================== */
+@media (max-width: 640px) {
+    .container {
+        padding-left: 16px;
+        padding-right: 16px;
+    }
+
+    .header .brand h1 {
+        font-size: 18px;
+    }
+}
+/* ==================================================
+   MOBILE RESPONSIVE STYLING (MAX-WIDTH) END
+   This responsive styling ends here.
+================================================== */
+
+/* ==================================================
+   MOBILE RESPONSIVE STYLING (MAX-WIDTH) START
+   Layout changes for this screen size range.
+   Here are the layout changes for small and large screens.
+================================================== */
+@media (max-width: 520px) {
+    .header .brand h1 {
+        font-size: 16px;
+        line-height: 1.2;
+    }
+}
+/* ==================================================
+   MOBILE RESPONSIVE STYLING (MAX-WIDTH) END
+   This responsive styling ends here.
+================================================== */
+
+/* One content gutter across the site: 16px on phones, 20px from tablet up,
+   so the ribbon, the cards and the home page all line up. */
+/* ==================================================
+   MOBILE RESPONSIVE STYLING (MIN-WIDTH) START
+   Layout changes for this screen size range.
+   Here are the layout changes for small and large screens.
+================================================== */
+@media (min-width: 641px) {
+    .container {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+}
+/* ==================================================
+   MOBILE RESPONSIVE STYLING (MIN-WIDTH) END
+   This responsive styling ends here.
+================================================== */
+
+/* ==================================================
+   SHARED TITLE RIBBON STYLESHEET END
+   This CSS file ends here.
+================================================== */

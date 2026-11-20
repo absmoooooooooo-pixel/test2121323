@@ -1,0 +1,256 @@
+/* ==================================================
+   DISH ENDS CALCULATOR (FIVE TYPES) STYLESHEET START
+   Extra interface pieces layered on the shared dish end theme.
+   The colours, fonts, cards, inputs and buttons come from
+   shared/dish-end-family.css so the page matches the website.
+================================================== */
+
+/* TYPE SELECTION */
+
+/* The type dropdown: same label and select design as the material selection
+   below it. */
+.type-select {
+    margin-top: 14px;
+}
+
+.type-select select {
+    margin-bottom: 8px;
+}
+
+.type-select .small-text {
+    margin-top: 0;
+}
+
+/* Cards that belong to one dish end type stay hidden until that type is
+   chosen. The attribute has to win over component display rules such as
+   .actions { display: flex } and .card padding. */
+.card[hidden],
+.actions[hidden] {
+    display: none !important;
+}
+
+/* ENGINEERING DRAWING */
+
+/* The drawing always fits the card width: it scales with its viewBox, so the
+   whole sheet stays visible without sideways scrolling on any screen. */
+.dwg-scroll {
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden;
+}
+
+.dwg-figure {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    /* The script sets the viewBox height to the drawing's own content, so a
+       shallow head does not leave an empty band below its dimensions. The
+       outline stays at fixed coordinates, so nothing moves while typing. */
+    margin: 6px 0 0;
+}
+
+.dwg-figure text {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Drawing text is sized in viewBox units and the sheet is 880 wide, so these
+   values are picked to land on the same on-screen size as the drawings on the
+   other calculators (roughly the body text size). */
+.dwg-figure .t-title {
+    font-size: 17px;
+    font-weight: 700;
+    letter-spacing: 1.1px;
+}
+
+.dwg-figure .t-note {
+    font-size: 13.5px;
+}
+
+.dwg-figure .t-dim {
+    font-size: 16px;
+}
+
+.dwg-figure .t-label {
+    font-size: 16.5px;
+    font-weight: 700;
+}
+
+/* The sheet is 880 viewBox units wide, so a narrower card shrinks the whole
+   drawing. These steps enlarge the annotation sizes in viewBox units, which
+   keeps the drawing text at a readable size on small screens without
+   changing the geometry, the layout of the dimensions or the aspect ratio. */
+@media (max-width: 640px) {
+    .dwg-figure .t-title {
+        font-size: 24px;
+    }
+
+    .dwg-figure .t-note {
+        font-size: 20px;
+    }
+
+    .dwg-figure .t-dim {
+        font-size: 23px;
+    }
+
+    .dwg-figure .t-label {
+        font-size: 24px;
+    }
+}
+
+@media (max-width: 460px) {
+    .dwg-figure .t-title {
+        font-size: 32px;
+    }
+
+    .dwg-figure .t-note {
+        font-size: 28px;
+    }
+
+    .dwg-figure .t-dim {
+        font-size: 32px;
+    }
+
+    .dwg-figure .t-label {
+        font-size: 32px;
+    }
+}
+
+/* DERIVED FIELD (HEMISPHERICAL RADIUS) */
+
+.derived-output {
+    display: block;
+    width: 100%;
+    padding: 11px;
+    border: 1px dashed #cbdcde;
+    border-radius: 8px;
+    background: #f6fafa;
+    color: #46636a;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+/* DEVELOPMENT LINE BUTTONS */
+
+.division-group {
+    margin-top: 17px;
+}
+
+.division-grid {
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: 8px;
+    margin-top: 8px;
+}
+
+.division-btn {
+    padding: 10px 4px;
+    background: #f7fafa;
+    border: 1px solid var(--border);
+    border-radius: 7px;
+    color: var(--text);
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.division-btn:hover {
+    border-color: #bcd8d6;
+}
+
+.division-btn[aria-pressed="true"] {
+    background: var(--primary);
+    border-color: var(--primary);
+    color: #ffffff;
+}
+
+@media (max-width: 460px) {
+    .division-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
+
+/* RESULTS GROUPS */
+
+.results.is-visible {
+    display: block;
+}
+
+.results-group {
+    margin-top: 18px;
+}
+
+.results-group h3 {
+    margin: 0 0 8px;
+    color: var(--text);
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 1.4;
+    letter-spacing: normal;
+    text-transform: none;
+}
+
+.results-group .stats {
+    margin-top: 12px;
+}
+
+/* DEVELOPMENT COORDINATE TABLE */
+
+.coord-wrap {
+    margin-top: 12px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: auto;
+    max-height: 260px;
+    -webkit-overflow-scrolling: touch;
+}
+
+table.coord-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+}
+
+table.coord-table th,
+table.coord-table td {
+    padding: 7px 9px;
+    border-bottom: 1px solid #eef3f3;
+    text-align: right;
+    white-space: nowrap;
+}
+
+table.coord-table th {
+    position: sticky;
+    top: 0;
+    background: #f7fafb;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: .4px;
+    text-transform: uppercase;
+    color: var(--muted);
+}
+
+table.coord-table td:first-child,
+table.coord-table th:first-child {
+    text-align: left;
+}
+
+table.coord-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+/* WORKED EXAMPLE LAYOUT
+   Five values (four dimensions plus density) fit three columns on desktop
+   and two columns on phones, with no orphan card in either layout. */
+
+#methodExample .example-values {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+@media (max-width: 640px) {
+    #methodExample .example-values {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+/* DISH ENDS STYLESHEET END */

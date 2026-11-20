@@ -1,0 +1,66 @@
+﻿/* ==================================================
+   MOBILE INPUT VIEWPORT STYLESHEET START
+   One global mobile stability stylesheet, loaded by every calculator page.
+
+   WHY THIS FILE EXISTS
+   --------------------
+   On phones the site header stays stuck to the top of the screen. When a
+   field is tapped, the browser scrolls that field into view, and previously
+   it could land partly under the header. The scroll padding below keeps the
+   focused field clear of the header without moving anything else.
+
+   WHAT MUST NEVER BE ADDED HERE
+   -----------------------------
+   No rule in this file may change the size of a drawing, diagram, card or
+   any other part of the page when a field gains or loses focus, when the
+   phone keyboard opens or closes, or when values are typed.
+
+   Every engineering drawing is an SVG with a fixed viewBox, so its size must
+   depend only on the available screen width. If the keyboard ever needs to be
+   taken into account, use scrolling only (scroll-padding, scroll-margin,
+   scrollIntoView) and never a smaller height or width, a transform, a zoom or
+   a flex shrink for the drawing.
+================================================== */
+
+/* Height of the sticky site header. The script in mobile-input-viewport.js
+   measures the real value and replaces this fallback. Used only for scroll
+   padding, never for layout. */
+:root {
+    --miv-header-h: 112px;
+}
+
+/* ==================================================
+   MOBILE RESPONSIVE STYLING (MAX-WIDTH) START
+   Layout changes for this screen size range.
+   Here are the layout changes for small and large screens.
+================================================== */
+@media (max-width: 640px) {
+    /* When the phone keyboard opens and the browser scrolls the tapped field
+       into view, leave room for the sticky header above it. Scroll padding
+       only changes where a scroll stops; it never resizes or reflows content,
+       so drawings, cards and headings keep their exact size. */
+    html {
+        scroll-padding-top: calc(var(--miv-header-h) + 10px);
+    }
+
+    /* 16px is the smallest font size at which mobile browsers (iOS Safari,
+       Android Chrome) open the keyboard WITHOUT zooming the whole page in.
+       Keeping form controls at 16px on phones therefore prevents the
+       automatic zoom that used to make the page jump and look resized when a
+       field was tapped. Tablets and desktops keep every page's own font size,
+       so the desktop design is untouched. */
+    input,
+    select,
+    textarea {
+        font-size: 16px;
+    }
+}
+/* ==================================================
+   MOBILE RESPONSIVE STYLING (MAX-WIDTH) END
+   This responsive styling ends here.
+================================================== */
+
+/* ==================================================
+   MOBILE INPUT VIEWPORT STYLESHEET END
+   This CSS file ends here.
+================================================== */

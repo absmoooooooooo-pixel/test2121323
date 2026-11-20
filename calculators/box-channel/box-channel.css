@@ -1,0 +1,876 @@
+﻿/* ==================================================
+   BOX CHANNEL WEIGHT CALCULATOR STYLESHEET START
+   All colours, fonts, spacing and layout for this calculator.
+   Here is the complete styling of this calculator.
+================================================== */
+:root {
+    --primary: #087f7b;
+    --primary-dark: #05635f;
+    --bg: #f4f7f8;
+    --white: #ffffff;
+    --text: #182b32;
+    --muted: #718087;
+    --border: #e0e8e9;
+    --danger: #dc4545;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.5;
+}
+
+.container {
+    max-width: 850px;
+    margin: auto;
+    padding: 24px 18px 35px;
+}
+
+/* HEADER */
+
+/* ==================================================
+   HEADER LAYOUT STYLING START
+   Styling rules for this part of the interface.
+   Here the layout of the header is controlled.
+================================================== */
+.header {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin-bottom: 20px;
+}
+/* ==================================================
+   HEADER LAYOUT STYLING END
+   This styling ends here.
+================================================== */
+
+/* ==================================================
+   LOGO AND TITLE STYLING START
+   Styling rules for this part of the interface.
+   Here the design of the logo and the title is controlled.
+================================================== */
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    min-width: 0;
+}
+/* ==================================================
+   LOGO AND TITLE STYLING END
+   This styling ends here.
+================================================== */
+
+.brand > div {
+    min-width: 0;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    height: 42px;
+}
+
+.logo img {
+    display: block;
+    height: 100%;
+    width: auto;
+}
+
+.brand h1 {
+    font-size: 21px;
+    line-height: 1.2;
+    overflow-wrap: break-word;
+}
+
+.brand p {
+    font-size: 11px;
+    color: var(--muted);
+}
+
+/* CARDS */
+
+/* ==================================================
+   CALCULATOR CARD STYLING START
+   Styling rules for this part of the interface.
+   Here the design of the calculator cards is controlled.
+================================================== */
+.card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 13px;
+    padding: 19px;
+    margin-bottom: 14px;
+}
+/* ==================================================
+   CALCULATOR CARD STYLING END
+   This styling ends here.
+================================================== */
+
+.card h2 {
+    font-size: 15px;
+    margin-bottom: 15px;
+}
+
+/* ==================================================
+   DIAGRAM SVG STYLING START
+   Styling rules for this part of the interface.
+   Here is the SVG styling of the diagram.
+================================================== */
+.shape-diagram {
+    width: 100%;
+    max-width: 460px;
+    max-height: 160px;
+    display: block;
+    margin: 5px auto 12px;
+}
+/* ==================================================
+   DIAGRAM SVG STYLING END
+   This styling ends here.
+================================================== */
+
+.small-text {
+    color: var(--muted);
+    font-size: 12px;
+    margin-top: 9px;
+}
+
+/* UNIT SELECTOR */
+
+/* ==================================================
+   MM / INCHES UNIT BUTTON STYLING START
+   Styling rules for this part of the interface.
+   Here the design of the unit buttons is controlled.
+================================================== */
+.unit-selector {
+    display: flex;
+    gap: 9px;
+    margin-top: 11px;
+}
+/* ==================================================
+   MM / INCHES UNIT BUTTON STYLING END
+   This styling ends here.
+================================================== */
+
+.unit-btn {
+    flex: 1;
+    padding: 10px;
+    background: #f7fafa;
+    border: 1px solid var(--border);
+    border-radius: 7px;
+    cursor: pointer;
+    color: var(--text);
+    font-weight: 600;
+    font-size: 13px;
+}
+
+.unit-btn.active {
+    background: var(--primary);
+    color: white;
+    border-color: var(--primary);
+}
+
+/* INPUTS */
+
+/* ==================================================
+   INPUT FIELD STYLING START
+   Styling rules for this part of the interface.
+   Here the design of the input fields is controlled.
+================================================== */
+.input-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 13px;
+    margin-top: 17px;
+}
+/* ==================================================
+   INPUT FIELD STYLING END
+   This styling ends here.
+================================================== */
+
+label {
+    display: block;
+    font-size: 12px;
+    font-weight: 700;
+    margin-bottom: 6px;
+}
+
+input,
+select {
+    width: 100%;
+    min-width: 0;
+    padding: 11px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: white;
+    color: var(--text);
+    font-size: 14px;
+    outline: none;
+}
+
+input::placeholder {
+    color: #a3afb3;
+    font-size: 13px;
+}
+
+input:focus,
+select:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 2px #087f7b18;
+}
+
+select {
+    cursor: pointer;
+    font-weight: 600;
+}
+
+/* DENSITY DISPLAY */
+
+/* ==================================================
+   MATERIAL DENSITY STYLING START
+   Styling rules for this part of the interface.
+   Here the part that shows the density is controlled.
+================================================== */
+.density-display {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    background: #ffffff;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 11px 13px;
+    margin-top: 13px;
+}
+/* ==================================================
+   MATERIAL DENSITY STYLING END
+   This styling ends here.
+================================================== */
+
+.density-display span {
+    font-size: 12px;
+    color: var(--muted);
+}
+
+.density-display strong {
+    font-size: 14px;
+    color: var(--text);
+}
+
+/* CUSTOM DENSITY */
+
+.custom-density {
+    margin-top: 13px;
+    display: none;
+}
+
+.quantity {
+    max-width: 190px;
+    margin-top: 15px;
+}
+
+/* BUTTONS */
+
+.actions {
+    display: flex;
+    gap: 10px;
+    margin: 15px 0;
+}
+
+/* ==================================================
+   ACTION BUTTON STYLING START
+   Styling rules for this part of the interface.
+   Here is the design of the Calculate and Reset buttons.
+================================================== */
+.calculate-btn {
+    flex: 1;
+    background: var(--primary);
+    color: white;
+    border: none;
+    padding: 13px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+}
+/* ==================================================
+   ACTION BUTTON STYLING END
+   This styling ends here.
+================================================== */
+
+.calculate-btn:hover {
+    background: var(--primary-dark);
+}
+
+.reset-btn {
+    background: white;
+    color: var(--text);
+    border: 1px solid var(--border);
+    padding: 12px 18px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+button:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+}
+
+/* ERROR */
+
+.error {
+    color: var(--danger);
+    font-size: 12px;
+    margin-top: 5px;
+    min-height: 0;
+}
+
+.error:not(:empty) {
+    margin-bottom: 8px;
+}
+
+/* RESULTS */
+
+/* ==================================================
+   RESULT DISPLAY STYLING START
+   Styling rules for this part of the interface.
+   Here the design of the result card is controlled.
+================================================== */
+.results {
+    display: none;
+    margin-top: 15px;
+}
+/* ==================================================
+   RESULT DISPLAY STYLING END
+   This styling ends here.
+================================================== */
+
+/* ==================================================
+   TOTAL WEIGHT STYLING START
+   Styling rules for this part of the interface.
+   Here is the design of the total weight box.
+================================================== */
+.total-box {
+    background: #eaf7f6;
+    border: 1px solid #cce8e5;
+    border-radius: 10px;
+    padding: 17px;
+}
+/* ==================================================
+   TOTAL WEIGHT STYLING END
+   This styling ends here.
+================================================== */
+
+.total-box p {
+    font-size: 12px;
+    color: var(--primary-dark);
+    font-weight: bold;
+}
+
+.total-box h3 {
+    font-size: 36px;
+    font-weight: 800;
+    color: var(--primary);
+    margin: 5px 0;
+    overflow-wrap: anywhere;
+}
+
+.total-box span {
+    font-size: 12px;
+    color: var(--muted);
+}
+
+.stats {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    margin-top: 12px;
+}
+
+/* ==================================================
+   RESULT DETAILS STYLING START
+   Styling rules for this part of the interface.
+   Here is the design of the result details.
+================================================== */
+.stat {
+    background: #f7f9fa;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px;
+    min-width: 0;
+}
+/* ==================================================
+   RESULT DETAILS STYLING END
+   This styling ends here.
+================================================== */
+
+.stat span {
+    font-size: 11px;
+    color: var(--muted);
+}
+
+.stat strong {
+    display: block;
+    font-size: 17px;
+    margin-top: 4px;
+    overflow-wrap: anywhere;
+}
+
+.result-details {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 14px;
+}
+
+/* FOOTER */
+
+/* ==================================================
+   FOOTER STYLING START
+   Styling rules for this part of the interface.
+   Here the design of the footer is controlled.
+================================================== */
+footer {
+    text-align: center;
+    padding-top: 18px;
+    color: var(--muted);
+    font-size: 11px;
+}
+/* ==================================================
+   FOOTER STYLING END
+   This styling ends here.
+================================================== */
+
+/* MOBILE */
+
+/* ==================================================
+   MOBILE RESPONSIVE STYLING (MAX-WIDTH) START
+   Layout changes for this screen size range.
+   Here are the layout changes for small and large screens.
+================================================== */
+@media (max-width: 520px) {
+    .container {
+        padding: 15px 12px 25px;
+    }
+
+    .card {
+        padding: 15px;
+    }
+
+    .brand h1 {
+        font-size: 18px;
+    }
+
+    .input-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+    }
+
+    .total-box h3 {
+        font-size: 29px;
+    }
+
+    .stat strong {
+        font-size: 15px;
+    }
+
+    .density-display {
+        align-items: center;
+    }
+}
+/* ==================================================
+   MOBILE RESPONSIVE STYLING (MAX-WIDTH) END
+   This responsive styling ends here.
+================================================== */
+
+/* SHAPE GRID VARIANTS */
+
+.input-grid {
+    grid-template-columns: repeat(3, 1fr);
+}
+
+.input-grid.cols-2 {
+    grid-template-columns: repeat(2, 1fr);
+}
+
+/* ==================================================
+   MOBILE RESPONSIVE STYLING (MAX-WIDTH) START
+   Layout changes for this screen size range.
+   Here are the layout changes for small and large screens.
+================================================== */
+@media (max-width: 520px) {
+    .input-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+    }
+
+    .input-grid.cols-3 > div:last-child {
+        grid-column: 1 / -1;
+    }
+}
+/* ==================================================
+   MOBILE RESPONSIVE STYLING (MAX-WIDTH) END
+   This responsive styling ends here.
+================================================== */
+
+
+/* TWO-VIEW ENGINEERING DIAGRAMS */
+
+/* ==================================================
+   DIAGRAM AREA STYLING START
+   Styling rules for this part of the interface.
+   Here the layout of the diagram area is controlled.
+================================================== */
+.diagram-views {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: center;
+    gap: 30px;
+    width: 100%;
+    max-width: 700px;
+    margin: 8px auto 14px;
+    min-width: 0;
+}
+/* ==================================================
+   DIAGRAM AREA STYLING END
+   This styling ends here.
+================================================== */
+
+.diagram-view {
+    display: block;
+    flex: 1 1 0;
+    width: 50%;
+    min-width: 0;
+    max-width: 320px;
+    height: auto;
+    max-height: none;
+    margin: 0;
+}
+
+/* ==================================================
+   MOBILE RESPONSIVE STYLING (MAX-WIDTH) START
+   Layout changes for this screen size range.
+   Here are the layout changes for small and large screens.
+================================================== */
+@media (max-width: 640px) {
+    /* Both engineering views always stay side by side. */
+    .diagram-views {
+        gap: 10px;
+    }
+}
+/* ==================================================
+   MOBILE RESPONSIVE STYLING (MAX-WIDTH) END
+   This responsive styling ends here.
+================================================== */
+
+/* SINGLE-COLUMN INPUT GRID (SPHERE) */
+
+.input-grid.cols-1 {
+    grid-template-columns: 1fr;
+}
+
+/* ==========================================================================
+   RESPONSIVE ADAPTATIONS (mobile / touch / small viewports)
+   The desktop rules above are the design reference and remain unchanged.
+   Only viewport-fit, overflow and touch ergonomics are adjusted here so the
+   exact same UI adapts to small screens without altering the design.
+   ========================================================================== */
+
+/* Keep the document from scrolling sideways on any device. */
+html,
+body {
+    overflow-x: clip;
+}
+
+body {
+    overflow-wrap: break-word;
+}
+
+/* Never let an SVG diagram exceed its container width (aspect ratio kept). */
+svg {
+    max-width: 100%;
+    height: auto;
+}
+
+.container {
+    min-width: 0;
+}
+
+/* Small screens / touch devices: safe inputs, smooth taps, accessible targets. */
+/* ==================================================
+   MOBILE RESPONSIVE STYLING (MAX-WIDTH) START
+   Layout changes for this screen size range.
+   Here are the layout changes for small and large screens.
+================================================== */
+@media (max-width: 520px) {
+
+    /* 16px controls stop mobile browsers from auto-zooming on focus. */
+    input,
+    select,
+    textarea {
+        font-size: 16px;
+    }
+
+    /* Remove the legacy tap delay and double-tap zoom behaviour. */
+    button,
+    input,
+    select,
+    textarea,
+    summary,
+    [role="button"] {
+        touch-action: manipulation;
+    }
+
+    /* Comfortable minimum touch target height for mobile ergonomics. */
+    .calculate-btn,
+    .reset-btn,
+    .unit-btn,
+    .history-trigger,
+    .history-close,
+    .history-clear {
+        min-height: 44px;
+    }
+
+    /* Reclaim the card padding so both diagrams stay as large as possible. */
+    .diagram-views {
+        width: calc(100% + 16px);
+        margin-left: -8px;
+        margin-right: -8px;
+        gap: 6px;
+    }
+}
+/* ==================================================
+   MOBILE RESPONSIVE STYLING (MAX-WIDTH) END
+   This responsive styling ends here.
+================================================== */
+
+
+/* Touch-device rules only: desktop rendering is untouched.
+   iOS Safari zooms when a control below 16px receives focus, so touch
+   devices get 16px controls; mouse/keyboard desktops keep the original size. */
+/* ==================================================
+   MOBILE RESPONSIVE STYLING (MIN-WIDTH) START
+   Layout changes for this screen size range.
+   Here are the layout changes for small and large screens.
+================================================== */
+@media (pointer: coarse) {
+    html {
+        -webkit-text-size-adjust: 100%;
+        text-size-adjust: 100%;
+    }
+
+    img,
+    video,
+    canvas {
+        max-width: 100%;
+        height: auto;
+    }
+
+    input,
+    select,
+    textarea {
+        font-size: 16px;
+    }
+}
+/* ==================================================
+   MOBILE RESPONSIVE STYLING (MIN-WIDTH) END
+   This responsive styling ends here.
+================================================== */
+
+
+/* ==========================================================================
+   ALL-TOOLS DASHBOARD NAVIGATION
+   Adds a clear return path to the central calculator dashboard without
+   changing the existing calculator layout or controls.
+   ========================================================================== */
+
+a.brand {
+    color: inherit;
+    text-decoration: none;
+}
+
+a.brand:hover h1 {
+    color: var(--primary-dark);
+}
+
+a.brand:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 4px;
+    border-radius: 8px;
+}
+
+.header .home-pill {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    flex-shrink: 0;
+    min-height: 38px;
+    margin-left: auto;
+    margin-right: 8px;
+    padding: 8px 11px;
+    border: 1px solid var(--border);
+    border-radius: 9px;
+    background: #ffffff;
+    color: var(--primary-dark);
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: background 0.16s ease, border-color 0.16s ease, box-shadow 0.16s ease;
+}
+
+.header .home-pill:hover {
+    background: #eef8f7;
+    border-color: #b5dcd8;
+    box-shadow: 0 2px 8px rgba(8, 127, 123, 0.08);
+}
+
+.header .home-pill:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+}
+
+.header .home-pill svg {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+}
+
+/* The shared history trigger has margin-left: auto. When the All Tools pill
+   sits beside it, the pill owns that auto margin instead. */
+.header .history-trigger {
+    margin-left: 0;
+    margin-right: 0;
+}
+
+/* Keep the All Tools return button visible on phones. The calculator name is
+   reduced slightly so the compact header still fits without crowding. */
+/* ==================================================
+   MOBILE RESPONSIVE STYLING (MAX-WIDTH) START
+   Layout changes for this screen size range.
+   Here are the layout changes for small and large screens.
+================================================== */
+@media (max-width: 640px) {
+    .header .home-pill {
+        display: inline-flex;
+        min-height: 40px;
+        margin-right: 0;
+        padding: 8px 10px;
+        gap: 5px;
+        font-size: 11px;
+    }
+
+    .header .home-pill svg {
+        width: 15px;
+        height: 15px;
+    }
+
+    .brand h1 {
+        font-size: 18px;
+    }
+}
+/* ==================================================
+   MOBILE RESPONSIVE STYLING (MAX-WIDTH) END
+   This responsive styling ends here.
+================================================== */
+
+/* On the narrowest phones, give the name its own row and put the All Tools
+   and History buttons underneath. This keeps every header control usable. */
+/* ==================================================
+   MOBILE RESPONSIVE STYLING (MAX-WIDTH) START
+   Layout changes for this screen size range.
+   Here are the layout changes for small and large screens.
+================================================== */
+@media (max-width: 520px) {
+    .header {
+        flex-wrap: wrap;
+        justify-content: flex-end;
+        row-gap: 8px;
+    }
+
+    .header .brand {
+        flex: 0 0 100%;
+        width: 100%;
+        margin-right: 0;
+    }
+
+    .brand h1 {
+        font-size: 16px;
+        line-height: 1.2;
+    }
+
+    .header .home-pill,
+    .header .history-trigger,
+    .header .add-shortcut-btn {
+        margin-left: 0;
+        margin-right: 0;
+    }
+
+    .header-actions-group {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        flex-wrap: nowrap;
+        gap: 6px;
+        margin-left: auto;
+        width: auto;
+        max-width: 100%;
+    }
+}
+/* ==================================================
+   MOBILE RESPONSIVE STYLING (MAX-WIDTH) END
+   This responsive styling ends here.
+================================================== */
+
+footer .footer-home {
+    display: inline-block;
+    margin-left: 7px;
+    color: var(--primary-dark);
+    font-weight: 700;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+footer .footer-home:hover {
+    text-decoration: underline;
+}
+
+footer .footer-home:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+    border-radius: 3px;
+}
+
+/* ==================================================
+   MOBILE RESPONSIVE STYLING (MAX-WIDTH) START
+   Layout changes for this screen size range.
+   Here are the layout changes for small and large screens.
+================================================== */
+@media (max-width: 520px) {
+    footer .footer-home {
+        display: block;
+        margin: 5px auto 0;
+    }
+}
+/* ==================================================
+   MOBILE RESPONSIVE STYLING (MAX-WIDTH) END
+   This responsive styling ends here.
+================================================== */
+
+
+/* ==================================================
+   BOX CHANNEL WEIGHT CALCULATOR STYLESHEET END
+   This CSS file ends here.
+================================================== */

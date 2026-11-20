@@ -1,0 +1,601 @@
+﻿/* ==================================================
+   SHARED INFO SECTION STYLESHEET START
+   Styling for formula, density, FAQ and related calculator cards.
+   Here is the styling of sections such as the formula and the FAQ.
+================================================== */
+/* ==========================================================================
+   CALCULATOR INFORMATION SECTIONS
+   Shared professional styling for formula, how-to, example, density reference,
+   and FAQ content below calculators (Plate Weight Calculator as reference).
+   ========================================================================== */
+
+.formula-equation {
+    color: var(--primary-dark);
+    font-size: clamp(20px, 4.5vw, 26px);
+    font-weight: 700;
+    line-height: 1.4;
+    text-align: center;
+    overflow-wrap: anywhere;
+}
+
+.formula-legend {
+    margin-top: 8px;
+    color: var(--muted);
+    font-size: 12px;
+    line-height: 1.6;
+    text-align: center;
+}
+
+.plate-example {
+    margin-top: 24px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border);
+}
+
+.example-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px 14px;
+    flex-wrap: wrap;
+    margin-bottom: 14px;
+}
+
+.example-heading h3 {
+    margin: 0;
+    color: var(--text);
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.example-material-badge {
+    padding: 4px 9px;
+    border: 1px solid #cfe4e2;
+    border-radius: 999px;
+    background: #eef8f7;
+    color: var(--primary-dark);
+    font-size: 10.5px;
+    font-weight: 700;
+    line-height: 1.4;
+    white-space: nowrap;
+}
+
+.example-values {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 9px;
+}
+
+.example-value {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    min-width: 0;
+    padding: 11px 12px 12px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: #f7f9fa;
+}
+
+.example-value-label {
+    color: var(--muted);
+    font-size: 10.5px;
+    font-weight: 700;
+    line-height: 1.3;
+}
+
+.example-value strong {
+    color: var(--text);
+    font-size: 19px;
+    font-weight: 700;
+    line-height: 1.2;
+    font-variant-numeric: tabular-nums;
+}
+
+.example-value strong small {
+    color: var(--muted);
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.example-value-note {
+    color: var(--muted);
+    font-size: 10.5px;
+    font-weight: 600;
+    line-height: 1.3;
+}
+
+.example-step {
+    margin-top: 12px;
+    padding: 13px 14px 12px;
+    border: 1px solid #d9e8e6;
+    border-left: 3px solid var(--primary);
+    border-radius: 10px;
+    background: #fbfdfd;
+    text-align: center;
+}
+
+.example-step-label {
+    display: block;
+    margin-bottom: 5px;
+    color: var(--muted);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    line-height: 1.3;
+    text-transform: uppercase;
+}
+
+.example-equation {
+    color: var(--text);
+    font-size: clamp(15px, 3.2vw, 18px);
+    font-weight: 700;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+}
+
+.example-density-callout {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    margin-top: 8px;
+    color: var(--muted);
+    font-size: 11.5px;
+    font-weight: 600;
+    line-height: 1.5;
+}
+
+.example-density-icon {
+    display: inline-grid;
+    place-items: center;
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    color: inherit;
+    font-size: 11px;
+    font-weight: 700;
+    line-height: 1;
+}
+
+.example-result {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-top: 12px;
+    padding: 14px 16px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+    color: #ffffff;
+    text-align: center;
+    box-shadow: 0 6px 16px rgba(8, 127, 123, 0.16);
+}
+
+.example-result-label {
+    font-size: 19px;
+    font-weight: 700;
+    line-height: 1.2;
+    opacity: 0.88;
+}
+
+.example-result strong {
+    font-size: 19px;
+    font-weight: 700;
+    line-height: 1.2;
+    font-variant-numeric: tabular-nums;
+}
+
+/* ==================================================
+   MOBILE RESPONSIVE STYLING (MAX-WIDTH) START
+   Layout changes for this screen size range.
+   Here are the layout changes for small and large screens.
+================================================== */
+@media (max-width: 640px) {
+    .example-values {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+/* ==================================================
+   MOBILE RESPONSIVE STYLING (MAX-WIDTH) END
+   This responsive styling ends here.
+================================================== */
+
+.plate-density-table {
+    width: 100%;
+    margin-top: 2px;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+.plate-density-table th,
+.plate-density-table td {
+    padding: 9px 2px;
+    text-align: left;
+    vertical-align: middle;
+}
+
+.plate-density-table th {
+    border-bottom: 1px solid var(--border);
+    color: var(--muted);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+}
+
+.plate-density-table td {
+    border-bottom: 1px solid #edf2f3;
+    color: var(--text);
+    font-size: 13px;
+}
+
+.plate-density-table th:last-child,
+.plate-density-table td:last-child {
+    text-align: right;
+}
+
+.plate-density-table td:last-child {
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+}
+
+.plate-density-table tr:last-child td {
+    border-bottom: 0;
+}
+
+.plate-density-table tr[hidden] {
+    display: none;
+}
+
+.density-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    width: 100%;
+    min-height: 42px;
+    margin-top: 12px;
+    padding: 10px 12px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: #ffffff;
+    color: var(--primary-dark);
+    font-family: inherit;
+    font-size: 12.5px;
+    font-weight: 700;
+    line-height: 1.2;
+    cursor: pointer;
+    transition: background 0.16s ease, border-color 0.16s ease;
+}
+
+.density-toggle:hover {
+    background: #eef8f7;
+    border-color: #b5dcd8;
+}
+
+.density-toggle:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+}
+
+.density-toggle-icon {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+    transition: transform 0.18s ease;
+}
+
+.density-toggle.is-open .density-toggle-icon {
+    transform: rotate(180deg);
+}
+
+.plate-faq-list {
+    display: grid;
+    gap: 8px;
+    margin-top: 13px;
+}
+
+.plate-faq-item {
+    overflow: hidden;
+    border: 1px solid var(--border);
+    border-radius: 9px;
+    background: #ffffff;
+}
+
+.plate-faq-item[open] {
+    border-color: #b9ded9;
+    background: #fbfdfd;
+}
+
+.plate-faq-item summary {
+    position: relative;
+    padding: 12px 40px 12px 13px;
+    color: var(--text);
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 1.4;
+    list-style: none;
+    cursor: pointer;
+}
+
+.plate-faq-item summary::-webkit-details-marker {
+    display: none;
+}
+
+.plate-faq-item summary:hover {
+    background: #f7fafa;
+}
+
+.plate-faq-item summary:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: -2px;
+}
+
+.plate-faq-item summary::after {
+    content: "+";
+    position: absolute;
+    top: 50%;
+    right: 14px;
+    color: var(--primary);
+    font-size: 19px;
+    font-weight: 700;
+    line-height: 1;
+    transform: translateY(-50%);
+}
+
+.plate-faq-item[open] summary {
+    color: var(--primary-dark);
+}
+
+.plate-faq-item[open] summary::after {
+    content: "\2212";
+}
+
+.plate-faq-answer {
+    padding: 0 13px 13px;
+    border-top: 1px solid #edf4f3;
+    background: #fbfdfd;
+}
+
+.plate-faq-answer p {
+    margin-top: 10px;
+    color: var(--muted);
+    font-size: 12.5px;
+    line-height: 1.6;
+}
+
+/* ==================================================
+   MOBILE RESPONSIVE STYLING (MAX-WIDTH) START
+   Layout changes for this screen size range.
+   Here are the layout changes for small and large screens.
+================================================== */
+@media (max-width: 520px) {
+    .formula-legend {
+        font-size: 11.5px;
+    }
+
+    .plate-example {
+        margin-top: 20px;
+        padding-top: 16px;
+    }
+
+    .example-value {
+        padding: 10px 10px 11px;
+    }
+
+    .example-value strong {
+        font-size: 17px;
+    }
+
+    .example-step {
+        padding: 12px 10px 11px;
+    }
+
+    .example-equation {
+        font-size: 14px;
+    }
+
+    .example-result {
+        padding: 13px 12px;
+    }
+
+    .example-result-label,
+    .example-result strong {
+        font-size: 17px;
+    }
+
+    .plate-faq-item summary {
+        font-size: 12.5px;
+    }
+}
+/* ==================================================
+   MOBILE RESPONSIVE STYLING (MAX-WIDTH) END
+   This responsive styling ends here.
+================================================== */
+
+/* Consistent typography for info-card content (steps, explanations, notes) */
+.plate-info-card h3 {
+    margin: 18px 0 8px;
+    color: var(--text);
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 1.4;
+}
+
+.plate-info-card p,
+.plate-info-card li {
+    color: var(--muted);
+    font-size: 12.5px;
+    line-height: 1.65;
+}
+
+.plate-info-card p {
+    margin-top: 8px;
+}
+
+.plate-info-card ol,
+.plate-info-card ul {
+    margin: 10px 0 14px 18px;
+    padding: 0;
+}
+
+.plate-info-card li + li {
+    margin-top: 4px;
+}
+
+.plate-info-card .small-text {
+    color: var(--muted);
+    font-size: 12.5px;
+    line-height: 1.65;
+}
+
+/* Side-by-side layout for information sections below calculator (desktop) */
+/* ==================================================
+   MOBILE RESPONSIVE STYLING (MIN-WIDTH) START
+   Layout changes for this screen size range.
+   Here are the layout changes for small and large screens.
+================================================== */
+@media (min-width: 920px) {
+    main.app {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        column-gap: 14px;
+        row-gap: 14px;
+        align-items: start;
+    }
+
+    main.app > * {
+        grid-column: 1 / -1;
+        min-width: 0;
+    }
+
+    main.app > .card {
+        margin-bottom: 0;
+    }
+
+    main.app > .plate-info-card {
+        grid-column: span 1;
+    }
+
+    main.app > .plate-info-card:last-child:nth-child(odd) {
+        grid-column: 1 / -1;
+    }
+
+    main.app > .related-calculators {
+        grid-column: 1 / -1;
+    }
+}
+/* ==================================================
+   MOBILE RESPONSIVE STYLING (MIN-WIDTH) END
+   This responsive styling ends here.
+================================================== */
+
+/* Related calculators section */
+.related-calculators .small-text {
+    margin-top: -6px;
+}
+
+.related-calculators-category {
+    margin-top: 10px;
+}
+
+.related-category-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 5px 10px;
+    border: 1px solid #cfe4e2;
+    border-radius: 999px;
+    background: #eef8f7;
+    color: var(--primary-dark);
+    font-size: 11px;
+    font-weight: 700;
+    line-height: 1.3;
+}
+
+.related-calculators-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+    margin-top: 14px;
+}
+
+.related-calc-link {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 0;
+    padding: 12px 13px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: #f7f9fa;
+    color: inherit;
+    text-decoration: none;
+    transition: background 0.16s ease, border-color 0.16s ease, box-shadow 0.16s ease, transform 0.16s ease;
+}
+
+.related-calc-link:hover {
+    background: #eef8f7;
+    border-color: #b5dcd8;
+    box-shadow: 0 4px 12px rgba(8, 127, 123, 0.08);
+    transform: translateY(-1px);
+}
+
+.related-calc-link:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+}
+
+.related-calc-name {
+    color: var(--text);
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 1.35;
+}
+
+.related-calc-meta {
+    color: var(--muted);
+    font-size: 11px;
+    font-weight: 600;
+    line-height: 1.3;
+}
+
+/* ==================================================
+   MOBILE RESPONSIVE STYLING (MIN-WIDTH) START
+   Layout changes for this screen size range.
+   Here are the layout changes for small and large screens.
+================================================== */
+@media (min-width: 920px) {
+    .related-calculators-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
+/* ==================================================
+   MOBILE RESPONSIVE STYLING (MIN-WIDTH) END
+   This responsive styling ends here.
+================================================== */
+
+/* ==================================================
+   MOBILE RESPONSIVE STYLING (MAX-WIDTH) START
+   Layout changes for this screen size range.
+   Here are the layout changes for small and large screens.
+================================================== */
+@media (max-width: 520px) {
+    .related-calculators-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .related-calc-link {
+        padding: 11px 12px;
+    }
+}
+/* ==================================================
+   MOBILE RESPONSIVE STYLING (MAX-WIDTH) END
+   This responsive styling ends here.
+================================================== */
+
+/* ==================================================
+   SHARED INFO SECTION STYLESHEET END
+   This CSS file ends here.
+================================================== */

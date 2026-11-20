@@ -1,0 +1,465 @@
+/* ==================================================
+   FEEDBACK BUTTON AND DIALOG STYLESHEET START
+   Styling for the feedback button and its popup dialog.
+   Here is the styling of the feedback button and the dialog.
+================================================== */
+/* Feedback button and Google Form modal (site-native style). */
+
+.feedback-btn,
+.about-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    flex: none;
+    min-height: 38px;
+    margin: 0;
+    padding: 8px 11px;
+    border: 1px solid var(--border, #d7e8e4);
+    border-radius: 9px;
+    background: #ffffff;
+    color: var(--primary-dark, #05635f);
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1;
+    white-space: nowrap;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background 0.16s ease, border-color 0.16s ease,
+        box-shadow 0.16s ease, color 0.16s ease, transform 0.16s ease;
+}
+
+.feedback-btn:hover,
+.about-btn:hover {
+    background: #eef8f7;
+    border-color: #b5dcd8;
+    box-shadow: 0 2px 8px rgba(8, 127, 123, 0.08);
+}
+
+.feedback-btn:active,
+.about-btn:active {
+    transform: translateY(1px);
+}
+
+.feedback-btn:focus-visible,
+.about-btn:focus-visible {
+    outline: 2px solid var(--primary, #087f7b);
+    outline-offset: 2px;
+}
+
+.feedback-btn svg,
+.about-btn svg {
+    width: 16px;
+    height: 16px;
+    flex: none;
+}
+
+/* Pages that show the header action buttons (homepage and About Us): on
+   desktop/laptop/tablet they stay on the right-hand side of the existing
+   heading/header area; on mobile they wrap into their own row below it. */
+
+.app-header-inner .about-btn {
+    margin-left: auto;
+}
+
+.app-header-inner .feedback-btn {
+    margin-left: 0;
+}
+
+.app-header-inner .add-shortcut-btn {
+    margin-left: 0;
+}
+
+/* Mobile/large-phone: the three action buttons leave the white ribbon and
+   form ONE single row directly below it, on the page colour. The ribbon then
+   keeps only the branding row. Pure CSS, so it adapts on load, on rotation and
+   on resize; desktop/tablet keep the single row inside the ribbon. */
+/* ==================================================
+   MOBILE RESPONSIVE STYLING (MAX-WIDTH) START
+   Layout changes for this screen size range.
+   Here are the layout changes for small and large screens.
+================================================== */
+@media (max-width: 767px) {
+    body.has-header-actions .app-header {
+        /* Page colour behind the button row: it reads as "below the ribbon". */
+        background: var(--paper, #f0f7f5);
+        border-bottom: 0;
+        -webkit-backdrop-filter: none;
+        backdrop-filter: none;
+    }
+
+    body.has-header-actions .app-header-inner {
+        flex-wrap: wrap;
+        align-content: center;
+        row-gap: 6px;
+        padding-top: 6px;
+        padding-bottom: 6px;
+    }
+
+    body.has-header-actions .app-header-inner .app-brand {
+        position: relative;
+        flex: 1 1 100%;
+        max-width: 100%;
+    }
+
+    /* White ribbon behind the branding only, bleeding to the screen edges like
+       the desktop app bar. The tall negative top just covers the header
+       padding above the brand (everything above the sticky header is off
+       screen). */
+    body.has-header-actions .app-header-inner .app-brand::before {
+        content: "";
+        position: absolute;
+        top: -110px;
+        bottom: 0;
+        left: 50%;
+        width: 100vw;
+        transform: translateX(-50%);
+        background: rgba(255, 255, 255, .96);
+        border-bottom: 1px solid rgba(210, 230, 226, .82);
+        z-index: -1;
+        pointer-events: none;
+    }
+
+    /* Always one row of equal, shrinking buttons. */
+    body.has-header-actions .app-header-inner .about-btn,
+    body.has-header-actions .app-header-inner .feedback-btn,
+    body.has-header-actions .app-header-inner .add-shortcut-btn {
+        flex: 1 1 0;
+        min-width: 0;
+        /* Compact height: about the height of the title + tagline block. */
+        min-height: 34px;
+        margin-left: 0;
+        padding: 4px 10px;
+        gap: 6px;
+        font-size: 12px;
+        line-height: 1.2;
+        justify-content: center;
+        white-space: nowrap;
+        overflow: hidden;
+    }
+
+    body.has-header-actions .app-header-inner .about-btn svg,
+    body.has-header-actions .app-header-inner .feedback-btn svg,
+    body.has-header-actions .app-header-inner .add-shortcut-btn svg {
+        width: 16px;
+        height: 16px;
+        flex: 0 0 auto;
+    }
+}
+/* ==================================================
+   MOBILE RESPONSIVE STYLING (MAX-WIDTH) END
+   This responsive styling ends here.
+================================================== */
+
+/* Very narrow phones: keep all three labels readable on one row. */
+/* ==================================================
+   MOBILE RESPONSIVE STYLING (MAX-WIDTH) START
+   Layout changes for this screen size range.
+   Here are the layout changes for small and large screens.
+================================================== */
+@media (max-width: 389px) {
+    body.has-header-actions .app-header-inner .about-btn,
+    body.has-header-actions .app-header-inner .feedback-btn,
+    body.has-header-actions .app-header-inner .add-shortcut-btn {
+        flex-direction: column;
+        min-height: 38px;
+        padding: 3px 4px;
+        gap: 1px;
+        font-size: 10px;
+        line-height: 1.1;
+        text-align: center;
+    }
+}
+/* ==================================================
+   MOBILE RESPONSIVE STYLING (MAX-WIDTH) END
+   This responsive styling ends here.
+================================================== */
+
+/* Smallest phones (e.g. 320px): stack icon above label so the longest label
+   still fits its third of the row - never a second button row. */
+/* ==================================================
+   MOBILE RESPONSIVE STYLING (MAX-WIDTH) START
+   Layout changes for this screen size range.
+   Here are the layout changes for small and large screens.
+================================================== */
+@media (max-width: 359px) {
+    body.has-header-actions .app-header-inner .about-btn,
+    body.has-header-actions .app-header-inner .feedback-btn,
+    body.has-header-actions .app-header-inner .add-shortcut-btn {
+        padding: 2px 2px;
+        gap: 1px;
+        font-size: 9.5px;
+    }
+
+    body.has-header-actions .app-header-inner .about-btn svg,
+    body.has-header-actions .app-header-inner .feedback-btn svg,
+    body.has-header-actions .app-header-inner .add-shortcut-btn svg {
+        width: 15px;
+        height: 15px;
+    }
+}
+/* ==================================================
+   MOBILE RESPONSIVE STYLING (MAX-WIDTH) END
+   This responsive styling ends here.
+================================================== */
+
+/* Modal */
+
+.fb-dialog,
+.fb-dialog *,
+.fb-dialog *::before,
+.fb-dialog *::after {
+    box-sizing: border-box;
+}
+
+.fb-dialog[hidden] {
+    display: none !important;
+}
+
+.fb-dialog {
+    --fb-brand: var(--primary, #087f7b);
+    --fb-brand-dark: var(--primary-dark, #05635f);
+    --fb-ink: var(--text, #182b32);
+    --fb-muted: var(--muted, #52686d);
+    --fb-border: var(--border, #e0e8e9);
+    --fb-surface: var(--surface, #ffffff);
+    position: fixed;
+    inset: 0;
+    z-index: 10050;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    padding: 12px;
+    padding-bottom: calc(12px + env(safe-area-inset-bottom, 0px));
+    color: var(--fb-ink);
+    font-family: inherit;
+    line-height: 1.4;
+}
+
+.fb-dialog__backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(4, 35, 34, 0.52);
+    /* No backdrop blur: repainting a blurred full-page backdrop on every open
+       is what made the panel feel sluggish on phones. The tint alone gives the
+       same dimmed look without any per-frame compositing cost. */
+    animation: fb-fade 0.1s linear both;
+}
+
+.fb-dialog__card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: min(100%, 720px);
+    height: min(92vh, 860px);
+    height: min(92dvh, 860px);
+    overflow: hidden;
+    border: 1px solid rgba(4, 61, 59, 0.12);
+    border-radius: 20px;
+    background-color: var(--fb-surface);
+    background-image: linear-gradient(90deg, #0b918b, #05635f);
+    background-repeat: no-repeat;
+    background-position: top left;
+    background-size: 100% 4px;
+    box-shadow: 0 24px 70px rgba(4, 35, 34, 0.32);
+    animation: fb-rise 0.14s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.fb-dialog__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    flex: 0 0 auto;
+    padding: 16px 16px 12px;
+    padding-right: 52px;
+    border-bottom: 1px solid var(--fb-border);
+    background: var(--fb-surface);
+}
+
+.fb-dialog__title {
+    margin: 0;
+    color: var(--fb-ink);
+    font-size: 17px;
+    font-weight: 700;
+    line-height: 1.25;
+}
+
+.fb-dialog__close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 38px;
+    height: 38px;
+    margin: 0;
+    padding: 0 0 2px;
+    border: 1px solid transparent;
+    border-radius: 999px;
+    background: #f2f7f6;
+    color: var(--fb-muted);
+    font: inherit;
+    font-size: 22px;
+    line-height: 1;
+    cursor: pointer;
+    touch-action: manipulation;
+}
+
+.fb-dialog__close:hover {
+    background: #e8f2f0;
+    color: var(--fb-ink);
+}
+
+.fb-dialog__close:focus-visible {
+    outline: 2px solid var(--fb-brand);
+    outline-offset: 2px;
+}
+
+.fb-dialog__body {
+    position: relative;
+    flex: 1 1 auto;
+    min-height: 0;
+    /* The card is sized to the viewport, so the body itself never scrolls:
+       clip the frame instead of letting it add a scrollbar of its own. */
+    overflow: hidden;
+    background: #f7fbfa;
+}
+
+.fb-dialog__loading {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 20px;
+    background: #f7fbfa;
+    color: var(--fb-muted);
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.fb-dialog__loading[hidden] {
+    display: none !important;
+}
+
+.fb-dialog__spinner {
+    width: 28px;
+    height: 28px;
+    border: 3px solid #d7e9e6;
+    border-top-color: var(--fb-brand);
+    border-radius: 50%;
+    animation: fb-spin 0.8s linear infinite;
+}
+
+/* The panel itself never shows a scrollbar: the card is sized to the viewport,
+   so there is nothing to scroll out there. Kept as a safety net in case a very
+   short viewport still needs to scroll - the wheel/touch scrolling keeps
+   working, only the bar is hidden. */
+.fb-dialog,
+.fb-dialog__card,
+.fb-dialog__body {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.fb-dialog::-webkit-scrollbar,
+.fb-dialog__card::-webkit-scrollbar,
+.fb-dialog__body::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+    display: none;
+}
+
+/* The embedded Google Form is cross-origin, so its own scrollbar cannot be
+   styled with CSS. The strip below sits exactly over the form's scrollbar
+   gutter: the gutter only ever covers the form's own padding, so no content is
+   hidden, and the form keeps scrolling with the wheel, touch and keyboard. */
+.fb-dialog__body::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 18px;
+    background: #ffffff;
+    pointer-events: none;
+    z-index: 2;
+}
+
+.fb-dialog__frame {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border: 0;
+    background: #ffffff;
+}
+
+/* ==================================================
+   MOBILE RESPONSIVE STYLING (MIN-WIDTH) START
+   Layout changes for this screen size range.
+   Here are the layout changes for small and large screens.
+================================================== */
+@media (min-width: 641px) {
+    .fb-dialog {
+        align-items: center;
+        padding: 20px;
+    }
+
+    .fb-dialog__card {
+        height: min(88vh, 860px);
+        height: min(88dvh, 860px);
+        border-radius: 22px;
+    }
+
+    .fb-dialog__header {
+        padding: 18px 20px 14px;
+        padding-right: 56px;
+    }
+
+    .fb-dialog__title {
+        font-size: 18px;
+    }
+}
+/* ==================================================
+   MOBILE RESPONSIVE STYLING (MIN-WIDTH) END
+   This responsive styling ends here.
+================================================== */
+
+@keyframes fb-rise {
+    from { opacity: 0; transform: translateY(18px) scale(0.985); }
+    to { opacity: 1; transform: none; }
+}
+
+@keyframes fb-fade {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes fb-spin {
+    to { transform: rotate(360deg); }
+}
+
+/* ==================================================
+   MOBILE RESPONSIVE STYLING (MIN-WIDTH) START
+   Layout changes for this screen size range.
+   Here are the layout changes for small and large screens.
+================================================== */
+@media (prefers-reduced-motion: reduce) {
+    .fb-dialog__backdrop,
+    .fb-dialog__card,
+    .fb-dialog__spinner {
+        animation: none;
+    }
+}
+/* ==================================================
+   MOBILE RESPONSIVE STYLING (MIN-WIDTH) END
+   This responsive styling ends here.
+================================================== */
+
+/* ==================================================
+   FEEDBACK BUTTON AND DIALOG STYLESHEET END
+   This CSS file ends here.
+================================================== */
