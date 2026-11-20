@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Metal Weight Calculator — Audit Changes (Side by Side)</title>
+<style>
+  body { font-family: Segoe UI, Arial, sans-serif; margin: 24px; color: #1b1f24; background: #f6f8fa; }
+  h1 { font-size: 24px; margin-bottom: 4px; }
+  h2 { font-size: 18px; margin: 32px 0 8px; padding: 8px 10px; background: #e8eef5; border-left: 4px solid #2b6cb0; }
+  p.note { color: #555; margin-top: 0; }
+  table { width: 100%; border-collapse: collapse; background: #fff; box-shadow: 0 1px 3px rgba(0,0,0,.08); }
+  th, td { border: 1px solid #d6dde5; padding: 10px; vertical-align: top; width: 50%; }
+  th { background: #edf2f7; text-align: left; font-size: 13px; }
+  pre { margin: 0; white-space: pre-wrap; font: 12px/1.45 Consolas, "Courier New", monospace; }
+  .before { background: #fff5f5; }
+  .after { background: #f0fff4; }
+  .new { background: #f0fff4; }
+  code { background: #eef1f4; padding: 1px 4px; border-radius: 3px; }
+</style>
+</head>
+<body>
+<h1>Metal Weight Calculator — Applied Audit Changes</h1>
+<p class="note">Saved on this PC. Full current copies of every changed file are in <code>changed-files\</code>. This page shows the functional and UI before/after changes applied to the website code. Sections 1–9 are the functional audit; sections 10–14 are the UI/design consistency pass. See <code>UI_AUDIT_REPORT.md</code> for the full audit report.</p>
+
+<h2>1. backend/calculations/nutBolt.js — ASME stress area + lock-nut breakdown</h2>
+<table>
+<tr><th>Before</th><th>After</th></tr>
+<tr>
+<td class="before"><pre>const METRIC_STRESS_FACTOR = 0.9382;
+const UNIFIED_STRESS_FACTOR = 0.9382; // wrong for ASME</pre></td>
+<td class="after"><pre>const METRIC_STRESS_FACTOR = 0.9382;
+const UNIFIED_STRESS_FACTOR = 0.9743;
+
+// d - 0.9743/p for Unified inch threads, d - 0.9382/p for ISO metric.</pre></td>
+</tr>
+<tr>
+<td class="before"><pre>function readStressFactor(standardId) {
+    if (standardId === STANDARDS["asme-b18-2-1"].id) {
+        return UNIFIED_STRESS_FACTOR;
+    }
+    return METRIC_STRESS_FACTOR;
+}</pre></td>
+<td class="after"><pre>function readStressFactor(standardId, unit) {
+    if (
+        standardId === STANDARDS["asme-b18-2-1"].id ||
+        (unit === "in" &amp;&amp; !standardId)
+    ) {
+        return UNIFIED_STRESS_FACTOR;
+    }
+    return METRIC_STRESS_FACTOR;
+}</pre></td>
+</tr>
+<tr>
+<td class="before"><pre>function threadStressArea(nominalMM, pitchMM, standardId) {
+    const k = readStressFactor(standardId);
+    return Math.PI / 4 * Math.pow(nominalMM - k * pitchMM, 2);
+}</pre></td>
+<td class="after"><pre>function threadStressArea(nominalMM, pitchMM, standardId, unit) {
+    const k = readStressFactor(standardId, unit);
+    return Math.PI / 4 * Math.pow(nominalMM - k * pitchMM, 2);
+}</pre></td>
+</tr>
+<tr>
+<td class="before"><pre>const headVolumeMM3 = volumeMM3 - shankVolumeMM3 - socketVolumeMM3;
+// breakdown implied head - socket = volume, which was inconsistent</pre></td>
+<td class="after"><pre>const headVolumeMM3 = volumeMM3 - shankVolumeMM3;
+// breakdown now satisfies: headVolumeMM3 - socketVolumeMM3 = volumeMM3</pre></td>
+</tr>
+</table>
+
+<h2>2. backend/test/threadFactors.js — new regression test</h2>
+<table>
+<tr><th>Before</th><th>After (new file)</th></tr>
+<tr>
+<td class="before"><pre>(file did not exist)</pre></td>
+<td class="new"><pre>const assert = require("assert");
+const { stressAreaFor, lockNutBreakdownFor } = require("../calculations/nutBolt");
+
+// ISO metric M12 x 1.75 and ASME 1/2-13 UNC must use different factors.
+assert.equal(stressAreaFor(12, 1.75, "iso", "mm").toFixed(4), "84.2664");
+assert.equal(stressAreaFor(12.7, 1 / 13 * 25.4, "asme", "in").toFixed(4), "91.5472");
+
+const parts = lockNutBreakdownFor(...);
+assert.ok(Math.abs(parts.headVolumeMM3 - parts.socketVolumeMM3 - parts.volumeMM3) &lt; 1e-6);
+
+console.log("PASS — thread systems and lock-nut breakdown are consistent.");</pre></td>
+</tr>
+</table>
+
+<h2>3. backend/package.json — test script</h2>
+<table>
+<tr><th>Before</th><th>After</th></tr>
+<tr>
+<td class="before"><pre>"test": "node test/parity.js"</pre></td>
+<td class="after"><pre>"test": "node test/parity.js &amp;&amp; node test/threadFactors.js"</pre></td>
+</tr>
+</table>
+
+<h2>4. frontend/assets/js/calc-api.js — stale results, invalidation, material refresh</h2>
+<table>
+<tr><th>Before</th><th>After</th></tr>
+<tr>
+<td class="before"><pre>var lastCalculationPromise = null;
+
+document.addEventListener("click", function (event) {
+    var target = event.target;
+    if (target &amp;&amp; target.closest &amp;&amp; target.closest("#calculateBtn")) {
+        lastCalculationPromise = null;
+    }
+}, true);</pre></td>
+<td class="after"><pre>var lastCalculationPromise = null;
+var calculationSequence = 0;
+var pendingCalculations = [];
+var activeCalculationControllers = [];
+
+function invalidatePendingCalculations() {
+    calculationSequence += 1;
+    pendingCalculations = [];
+    lastCalculationPromise = null;
+    activeCalculationControllers.forEach(function (controller) {
+        try { controller.abort(); } catch (error) {}
+    });
+    activeCalculationControllers = [];
+}</pre></td>
+</tr>
+<tr>
+<td class="before"><pre>async function calculate(slug, payload) {
+    var promise = request("/api/calculate/" + encodeURIComponent(slug), {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+    }).then(function (body) {
+        return body.result;
+    });
+    lastCalculationPromise = promise;
+    return promise;
+}</pre></td>
+<td class="after"><pre>async function calculate(slug, payload) {
+    var token = ++calculationSequence;
+    var sharedPromise = new Promise(function (resolve, reject) { ... });
+    pendingCalculations.push({ token: token, resolve: ..., reject: ... });
+    lastCalculationPromise = sharedPromise;
+
+    request("/api/calculate/" + encodeURIComponent(slug), { ... }, true)
+        .then(function (body) {
+            if (token === calculationSequence) {
+                settleCalculations(body.result, null);
+            }
+        }, function (error) {
+            if (token === calculationSequence) {
+                settleCalculations(null, error);
+            }
+        });
+
+    return sharedPromise;
+}</pre></td>
+</tr>
+<tr>
+<td class="before"><pre>var densityInput = document.getElementById("density");
+var hasTypedDensity = densityInput &amp;&amp; densityInput.value.trim() !== "";
+...
+if (!select || (hasTypedDensity &amp;&amp; select.id === "material")) return;</pre></td>
+<td class="after"><pre>var densityInput = document.getElementById("density");
+var userEditedDensity = densityInput &amp;&amp;
+    densityInput.getAttribute("data-user-edited") === "true";
+...
+if (!select || (userEditedDensity &amp;&amp; select.id === "material")) return;</pre></td>
+</tr>
+</table>
+
+<h2>5. frontend/calculators/nut-bolt/nut-bolt.js — zero thread length + history key</h2>
+<table>
+<tr><th>Before</th><th>After</th></tr>
+<tr>
+<td class="before"><pre>function readRequired(key) {
+    ...
+    if (value &lt;= 0) {
+        showError(field.label + " must be greater than zero.", input);
+        return null;
+    }
+    return value;
+}
+...
+var value = readRequired(key);</pre></td>
+<td class="after"><pre>function readRequired(key, allowZero) {
+    ...
+    if (value &lt; 0 || (!allowZero &amp;&amp; value === 0)) {
+        showError(field.label + (allowZero
+            ? " must be zero or greater."
+            : " must be greater than zero."), input);
+        return null;
+    }
+    return value;
+}
+...
+var zeroThreadAllowed = ["carriage", "socket-head", "countersunk"]
+    .indexOf(state.productKey) !== -1;
+var value = readRequired(key, zeroThreadAllowed &amp;&amp; key === "threadLength");</pre></td>
+</tr>
+<tr>
+<td class="before"><pre>return state.productKey + "|" + state.standardId + "|" +
+    form.quantity + "|" + form.density.toFixed(3) + "|" + parts.join(",");</pre></td>
+<td class="after"><pre>return state.productKey + "|" + state.standardId + "|" +
+    state.sizeLabel + "|" + state.unit + "|" +
+    form.quantity + "|" + form.density.toFixed(3) + "|" + parts.join(",");</pre></td>
+</tr>
+</table>
+
+<h2>6. frontend/calculators/nut-bolt/index.html — formula disclosure</h2>
+<table>
+<tr><th>Before</th><th>After</th></tr>
+<tr>
+<td class="before"><pre>Stress area uses k = 0.9382.</pre></td>
+<td class="after"><pre>Stress area uses k = 0.9382 for ISO metric threads and k = 0.9743 for ASME/Unified inch threads.</pre></td>
+</tr>
+</table>
+
+<h2>7. frontend/calculators/dish-ends/dish-ends.js — manual density marker</h2>
+<table>
+<tr><th>Before</th><th>After</th></tr>
+<tr>
+<td class="before"><pre>function applyMaterial(key) {
+    ...
+    dom.density.value = ...;
+}
+...
+dom.density.addEventListener("input", function () {
+    state.densityEdited = true;
+    ...
+});</pre></td>
+<td class="after"><pre>function applyMaterial(key) {
+    ...
+    dom.density.value = ...;
+    dom.density.removeAttribute("data-user-edited");
+}
+...
+dom.density.addEventListener("input", function () {
+    state.densityEdited = true;
+    dom.density.setAttribute("data-user-edited", "true");
+    ...
+});</pre></td>
+</tr>
+</table>
+
+<h2>8. frontend/assets/js/calc-api.js — local API fallback (connection-error fix)</h2>
+<table>
+<tr><th>Before</th><th>After</th></tr>
+<tr>
+<td class="before"><pre>function baseUrl() {
+    if (window.MW_API_BASE) return window.MW_API_BASE.replace(/\/+$/, "");
+    var meta = document.querySelector('meta[name="mw-api-base"]');
+    if (meta &amp;&amp; meta.content) return meta.content.replace(/\/+$/, "");
+    return "";
+}
+...
+response = await fetch(baseUrl() + path, { ... });</pre></td>
+<td class="after"><pre>var LOCAL_API_BASE = "http://127.0.0.1:8080";
+
+function baseUrlCandidates() {
+    add(window.MW_API_BASE);
+    add(meta.content);
+    candidates.push("");               // same origin
+    if (local page and not already port 8080) add(LOCAL_API_BASE);
+    return candidates;
+}
+...
+for each candidate:
+    try fetch(candidate + path)
+    catch -&gt; try the next candidate
+    if 404 -&gt; try the next candidate
+...</pre></td>
+</tr>
+</table>
+
+<h2>9. backend/middleware/cors.js — allow local browser origins</h2>
+<table>
+<tr><th>Before</th><th>After</th></tr>
+<tr>
+<td class="before"><pre>if (ALLOWED_ORIGINS.indexOf(origin) === -1) {
+    return false;
+}</pre></td>
+<td class="after"><pre>const { ALLOWED_ORIGINS, NODE_ENV } = require("../config");
+...
+const localDevOrigin = origin === "null" ||
+    /^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/i.test(origin);
+
+if (!allowed &amp;&amp; NODE_ENV !== "production" &amp;&amp; localDevOrigin) {
+    allowed = true;
+}</pre></td>
+</tr>
+</table>
+
+<h2>10. UI PASS — dish-ends/dish-ends.js — formula card, labels and example presentation</h2>
+<table>
+<tr><th>Before</th><th>After</th></tr>
+<tr>
+<td class="before"><pre>method: "&lt;ul class=\"method-list\"&gt;" +
+    "&lt;li&gt;The plate is taken as uniform thickness T ...&lt;/li&gt;" +
+    "&lt;/ul&gt;",</pre></td>
+<td class="after"><pre>method: "&lt;ol class=\"small-text\" style=\"margin: 10px 0 14px 18px; ...\"&gt;" +
+    "&lt;li&gt;The plate is taken as uniform thickness T ...&lt;/li&gt;" +
+    "&lt;/ol&gt;",
+
+dom.methodBody.innerHTML =
+    TYPE_INFO[type].method +
+    '&lt;p class=\"small-text\" style=\"margin-top:0;\"&gt;&lt;strong&gt;Variables:&lt;/strong&gt; ' +
+    TYPE_INFO[type].variables + '&lt;/p&gt;' +
+    '&lt;p class=\"small-text\"&gt;&lt;strong&gt;Assumptions/limitations:&lt;/strong&gt; ...&lt;/p&gt;';</pre></td>
+</tr>
+<tr>
+<td class="before"><pre>equation: "A = πa² + (πb² ÷ 2e) × ln((1 + e) ÷ (1 − e))",
+variables: "A = dish surface area ... &rho; = density (kg/m³)",</pre></td>
+<td class="after"><pre>equation: "W = A × T × ρ ÷ 10⁹",
+variables: "W = Weight (kg) · A = Developed surface area (mm²) · T = Thickness (mm) · ρ = Density (kg/m³)",</pre></td>
+</tr>
+<tr>
+<td class="before"><pre>var values = TYPE_FIELDS[type].map(function (key) {
+    return '&lt;div class=\"example-value\"&gt;' +
+        '&lt;span class=\"example-value-label\"&gt;' + meta.label + " (" + meta.notation + ")&lt;/span&gt;" +
+        "&lt;strong&gt;" + fmt(ex[key], 0) + " &lt;small&gt;mm&lt;/small&gt;&lt;/strong&gt;" +
+        "&lt;/div&gt;";
+});</pre></td>
+<td class="after"><pre>var EXAMPLE_LABELS = {
+    id: "Inside Diameter (ID)",
+    kr: "Knuckle Radius (R)",
+    h: "Dish Height (H)",
+    sf: "Straight Face (SF)",
+    t: "Thickness (T)"
+};
+
+// example tiles now use the short, baseline-style labels
+'&lt;span class=\"example-value-label\"&gt;' + (EXAMPLE_LABELS[key] || meta.label) + "&lt;/span&gt;";</pre></td>
+</tr>
+<tr>
+<td class="before"><pre>function fieldHtml(key) { ... autocomplete="off" ... }
+fields.forEach(function (key) { html += fieldHtml(key); });</pre></td>
+<td class="after"><pre>function fieldHtml(key, enterHint) { ... enterkeyhint="' + enterHint + '" autocomplete="off" ... }
+fields.forEach(function (key, index) {
+    html += fieldHtml(key, index === fields.length - 1 ? "done" : "next");
+});</pre></td>
+</tr>
+</table>
+
+<h2>11. UI PASS — dish-ends/index.html and dish-ends.css — shared baseline structure</h2>
+<table>
+<tr><th>Before (pattern)</th><th>After (pattern)</th></tr>
+<tr>
+<td class="before"><pre>Ad-hoc formula/example markup and local-only card rules.
+Example labels mixed long engineering names with notation.
+Density table had no explanation of kg/m³ vs g/cm³.
+Drawing dimension text used fixed px sizes.
+Inputs had no enterkeyhint.
+CSS/JS links used older cache versions.</pre></td>
+<td class="new"><pre>plate-info-card / example-values / example-step / example-result structure,
+matching plate, circular-plate, flange-plate and shell.
+Standard numbered step block with Variables and Assumptions/limitations.
+Added kg/m³ = 1,000 g/cm³ density note beside the table.
+Drawing dimension text scales inside the responsive @media rules.
+Added enterkeyhint="next"/"done" to generated fields.
+Bumped to dish-ends.css?v=9 and dish-ends.js?v=20.
+Added AdSense placeholder comments in the same style as the other 22 pages.</pre></td>
+</tr>
+</table>
+
+<h2>12. UI PASS — nut-bolt/index.html — baseline cards, tabs, formula and help sections</h2>
+<table>
+<tr><th>Before</th><th>After</th></tr>
+<tr>
+<td class="before"><pre>&lt;button class="category-tab active" type="button" role="tab"
+        aria-selected="true" data-category="bolts"&gt;</pre></td>
+<td class="after"><pre>&lt;button class="category-tab active" type="button" role="tab" id="categoryBolts"
+        aria-selected="true" aria-controls="dimensionFields" tabindex="0" data-category="bolts"&gt;</pre></td>
+</tr>
+<tr>
+<td class="before"><pre>&lt;div class="input-grid" id="dimensionFields"&gt;&lt;/div&gt;</pre></td>
+<td class="after"><pre>&lt;div class="input-grid" id="dimensionFields" role="tabpanel" tabindex="0"
+     aria-labelledby="categoryBolts"&gt;&lt;/div&gt;</pre></td>
+</tr>
+<tr>
+<td class="before"><pre>&lt;h3 class="sub-heading"&gt;
+    Dimensions
+    &lt;span class="required-note"&gt;&lt;span aria-hidden="true"&gt;*&lt;/span&gt; required&lt;/span&gt;
+&lt;/h3&gt;</pre></td>
+<td class="after"><pre>&lt;h2 class="sub-heading"&gt;Dimensions&lt;/h2&gt;</pre></td>
+</tr>
+<tr>
+<td class="before"><pre>&lt;section class="card plate-info-card" aria-labelledby="methodTitle"&gt;
+    &lt;h2 id="methodTitle"&gt;How the Weight Is Calculated&lt;/h2&gt;
+    ... method-step divs only ...
+&lt;/section&gt;</pre></td>
+<td class="after"><pre>&lt;section class="card plate-info-card" aria-labelledby="fastenerFormulaTitle"&gt;
+    &lt;h2 id="fastenerFormulaTitle"&gt;Weight Calculation Formula&lt;/h2&gt;
+    &lt;div class="plate-example"&gt; standard step block &lt;/div&gt;
+    &lt;div class="plate-example" id="fastenerExample"&gt;
+        example-values + example-step + example-result
+    &lt;/div&gt;
+&lt;/section&gt;</pre></td>
+</tr>
+<tr>
+<td class="before"><pre>(no density reference card, no FAQ card)</pre></td>
+<td class="new"><pre>&lt;section class="card plate-info-card" aria-labelledby="fastenerDensityTitle"&gt;
+    plate-density-table + density note + #fastenerDensityToggle
+&lt;/section&gt;
+
+&lt;section class="card plate-info-card" aria-labelledby="fastenerFaqTitle"&gt;
+    8 &lt;details class="plate-faq-item"&gt; entries
+&lt;/section&gt;</pre></td>
+</tr>
+<tr>
+<td class="before"><pre>&lt;link rel="stylesheet" href="nut-bolt.css?v=2"&gt;
+&lt;script src="nut-bolt.js?v=8"&gt;&lt;/script&gt;</pre></td>
+<td class="after"><pre>&lt;link rel="stylesheet" href="nut-bolt.css?v=3"&gt;
+&lt;link rel="stylesheet" href="../../shared/mobile-input-viewport.css"&gt;
+&lt;script src="nut-bolt.js?v=9"&gt;&lt;/script&gt;</pre></td>
+</tr>
+</table>
+
+<h2>13. UI PASS — nut-bolt/nut-bolt.css — shared visual tokens and mobile safety</h2>
+<table>
+<tr><th>Before (pattern)</th><th>After (pattern)</th></tr>
+<tr>
+<td class="before"><pre>Local card headings, history, formula, density and FAQ rules did not
+follow the shared calculator-info-sections.css structure.
+Some mobile widths could force horizontal overflow.
+History button and tabs used one-off sizing.</pre></td>
+<td class="new"><pre>Cards use the same 13px radius, 19px padding, 14px gap and palette
+as the baseline pages.
+Formula/example/density/FAQ/related styles are delegated to
+shared/calculator-info-sections.css.
+Header/action row delegated to shared/calculator-sticky-header.css.
+Linked shared/mobile-input-viewport.css.
+Added min-width:0, overflow-wrap:break-word, clipped overflow-x,
+focus-visible outlines and stacked mobile grids.
+Bumped to nut-bolt.css?v=3.</pre></td>
+</tr>
+</table>
+
+<h2>14. UI PASS — nut-bolt/nut-bolt.js — tab keyboard pattern, density toggle, field labels</h2>
+<table>
+<tr><th>Before</th><th>After</th></tr>
+<tr>
+<td class="before"><pre>tab.setAttribute("aria-selected", active ? "true" : "false");</pre></td>
+<td class="after"><pre>tab.setAttribute("aria-selected", active ? "true" : "false");
+tab.tabIndex = active ? 0 : -1;
+if (active &amp;&amp; dimensionFields) {
+    dimensionFields.setAttribute("aria-labelledby", tab.id);
+}</pre></td>
+</tr>
+<tr>
+<td class="before"><pre>tab.addEventListener("click", function () {
+    setCategory(tab.dataset.category);
+});</pre></td>
+<td class="after"><pre>tab.addEventListener("keydown", function (event) {
+    // ArrowLeft / ArrowRight / Home / End move focus and select the tab
+    event.preventDefault();
+    var nextTab = categoryTabs[next];
+    setCategory(nextTab.dataset.category);
+    nextTab.focus();
+});</pre></td>
+</tr>
+<tr>
+<td class="before"><pre>historyTotal.textContent = formatNumber(totalKg, 3) + " KG / " +
+    formatNumber(totalLbs, 3) + " LBS";</pre></td>
+<td class="after"><pre>historyTotal.textContent = formatNumber(totalKg, 3) + " kg / " +
+    formatNumber(totalLbs, 3) + " lbs";
+
+var navHistoryCount = $("navHistoryCount");
+if (navHistoryCount) {
+    navHistoryCount.textContent = String(records.length);
+    navHistoryCount.hidden = empty;
+}</pre></td>
+</tr>
+<tr>
+<td class="before"><pre>enterkeyhint="next"  // every generated field</pre></td>
+<td class="after"><pre>var hint = index === product.fields.length - 1 ? "done" : "next";
+enterkeyhint="' + hint + '"</pre></td>
+</tr>
+<tr>
+<td class="before"><pre>(no density table toggle)</pre></td>
+<td class="new"><pre>var densityToggle = $("fastenerDensityToggle");
+if (densityToggle) {
+    densityToggle.addEventListener("click", function () {
+        var rows = table.querySelectorAll(".density-extra");
+        rows.forEach(function (row) { row.hidden = open; });
+        densityToggle.setAttribute("aria-expanded", open ? "false" : "true");
+        label.textContent = open
+            ? "View All Material Densities"
+            : "Show Fewer Material Densities";
+    });
+}</pre></td>
+</tr>
+</table>
+
+<h2>Verification saved with this report</h2>
+<ul>
+  <li><code>backend\npm test</code>: 71 parity pairs pass; thread-system and lock-nut regression passes.</li>
+  <li>All 22 standard calculators + dish-ends + nut-bolt: calculation, inch round-trip, material/density, quantity, history.</li>
+  <li>Race tests: superseded qty result no longer wins; clearing an input hides stale results; unit switch during a pending request no longer mislabels the answer.</li>
+  <li>Nut-bolt: all 14 products, metric and inch/ASME, zero thread length for the 3 supported products; same numbers in mm vs inch produce distinct history records.</li>
+  <li>Dish ends: all 5 types, inch round-trip, custom density, reset and validation.</li>
+  <li>Homepage: all 25 internal calculator links return HTTP 200 with no console errors.</li>
+  <li>Local API fallback: a stale/unreachable API base retries the working local backend.</li>
+  <li>CORS: file:// (origin null) and other localhost ports can call the local API in development.</li>
+  <li>UI interaction check: density toggle, roving tab focus, ARIA panel label and worked-example values.</li>
+  <li>Real Chrome desktop (1440x1000) and mobile (390x844): no console errors, no horizontal overflow, worked examples render.</li>
+  <li>Computed styles: shared card, formula, example, density, FAQ and related classes match the baseline plate page on desktop and mobile.</li>
+  <li>The backend was restarted with default rate limits after verification; health returned 24 calculators.</li>
+</ul>
+</body>
+</html>
