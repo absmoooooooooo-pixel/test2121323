@@ -1,0 +1,1106 @@
+/* ==================================================
+   HOME PAGE STYLESHEET START
+   Design of the header, hero, filters, calculator cards grid and density table.
+   Here is the complete styling of the home page.
+================================================== */
+/* ==========================================================================
+   Metal Weight Calculator - mobile-first engineering tools application
+   ========================================================================== */
+
+:root {
+    --teal-950: #032f2e;
+    --teal-900: #043d3b;
+    --teal-800: #065955;
+    --teal-700: #087f7b;
+    --teal-600: #0a9991;
+    --teal-500: #14b8ad;
+    --teal-100: #d9f3ef;
+    --teal-50: #eff9f7;
+    --ink: #0b3f3c;
+    --ink-soft: #315f5b;
+    --muted: #6b8581;
+    --paper: #f0f7f5;
+    --card: #ffffff;
+    --line: #dbe9e6;
+    --line-strong: #c8ded9;
+    --shadow-card: 0 4px 14px rgba(5, 62, 58, .065);
+    --shadow-card-press: 0 2px 8px rgba(5, 62, 58, .08);
+    --app-bar-h: 110px;
+    --bg: var(--paper);
+    --radius-card: 16px;
+    --font: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+[hidden] {
+    display: none !important;
+}
+
+html {
+    -webkit-text-size-adjust: 100%;
+}
+
+body {
+    margin: 0;
+    min-width: 0;
+    min-height: 100vh;
+    /* "clip" keeps sideways overflow out of the page without turning the body
+       into a scrolling box - with "hidden" the pinned home page ribbon could no
+       longer follow the scroll. */
+    overflow-x: hidden;
+    overflow-x: clip;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--font);
+    font-size: 14px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+}
+
+h1,
+h2,
+h3,
+p {
+    margin: 0;
+}
+
+a {
+    color: inherit;
+}
+
+button,
+input {
+    font: inherit;
+}
+
+button {
+    cursor: pointer;
+}
+
+svg {
+    display: block;
+}
+
+:where(a, button, input):focus-visible {
+    outline: 2px solid var(--teal-600);
+    outline-offset: 3px;
+}
+
+#tools {
+    scroll-margin-top: calc(var(--app-bar-h) + 8px);
+}
+
+#toolSections {
+    scroll-margin-top: calc(var(--app-bar-h) + 8px);
+}
+
+/* The hero's "Explore All Calculators" link jumps here, so leave room for the
+   pinned ribbon above it instead of parking the category bar under the header. */
+#calculatorExplorer {
+    scroll-margin-top: calc(var(--app-bar-h) + 8px);
+}
+
+.icon-sprite {
+    position: absolute;
+    width: 0;
+    height: 0;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+.skip-link {
+    position: fixed;
+    top: 8px;
+    left: 8px;
+    z-index: 200;
+    padding: 10px 15px;
+    border-radius: 11px;
+    background: var(--teal-900);
+    color: #fff;
+    font-size: 12px;
+    font-weight: 700;
+    text-decoration: none;
+    transform: translateY(-160%);
+    transition: transform .18s ease;
+}
+
+.skip-link:focus {
+    transform: translateY(0);
+}
+
+/* ==========================================================================
+   Engineering hero
+   ========================================================================== */
+
+/* ==================================================
+   HERO BANNER STYLING START
+   This styling starts here.
+================================================== */
+.hero-section {
+    width: 100%;
+    max-width: 1220px;
+    margin: 0 auto;
+    padding: 10px 16px 4px;
+}
+/* ==================================================
+   HERO BANNER STYLING END
+   This styling ends here.
+================================================== */
+
+.hero-banner {
+    position: relative;
+    overflow: hidden;
+    border: 1px solid rgba(128, 205, 214, .16);
+    border-radius: 24px;
+    background:
+        radial-gradient(circle at 85% 18%, rgba(20, 184, 173, .22), transparent 34%),
+        radial-gradient(circle at 12% 90%, rgba(37, 99, 235, .14), transparent 30%),
+        linear-gradient(135deg, #061726 0%, #08263a 46%, #0a3447 100%);
+    box-shadow:
+        0 18px 38px rgba(3, 25, 39, .22),
+        inset 0 1px 0 rgba(255, 255, 255, .06);
+    color: #fff;
+}
+
+.hero-banner::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image:
+        linear-gradient(rgba(133, 213, 222, .06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(133, 213, 222, .06) 1px, transparent 1px);
+    background-size: 32px 32px;
+    opacity: .9;
+    pointer-events: none;
+}
+
+.hero-banner::after {
+    content: "";
+    position: absolute;
+    right: -8%;
+    top: -10%;
+    width: 46%;
+    height: 70%;
+    background: radial-gradient(circle, rgba(20, 184, 173, .18), transparent 70%);
+    pointer-events: none;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+    display: block;
+    padding: 12px 18px 8px;
+}
+
+.hero-copy {
+    min-width: 0;
+    max-width: none;
+}
+
+.hero-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    margin-bottom: 6px;
+    padding: 4px 10px;
+    border: 1px solid rgba(154, 214, 225, .26);
+    border-radius: 999px;
+    background: rgba(255, 255, 255, .06);
+    color: #d6f7f2;
+    font-size: 10.5px;
+    font-weight: 800;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+}
+
+.hero-copy h1 {
+    max-width: 980px;
+    color: #ffffff;
+    font-size: clamp(1.8rem, 4.5vw, 2.8rem);
+    font-weight: 800;
+    letter-spacing: -.045em;
+    line-height: 1.06;
+    text-wrap: balance;
+}
+
+.hero-highlight {
+    color: #20d4c6;
+}
+
+.hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px 12px;
+    margin-top: 10px;
+}
+
+.hero-cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 44px;
+    padding: 0 18px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #14b8ad 0%, #0b978f 100%);
+    box-shadow: 0 10px 20px rgba(8, 127, 123, .28), inset 0 1px 0 rgba(255,255,255,.18);
+    color: #042726;
+    font-size: 13.5px;
+    font-weight: 800;
+    text-decoration: none;
+    transition: transform .16s ease, box-shadow .16s ease, filter .16s ease;
+}
+
+.hero-cta:hover {
+    filter: brightness(1.03);
+    box-shadow: 0 14px 24px rgba(8, 127, 123, .34), inset 0 1px 0 rgba(255,255,255,.2);
+    transform: translateY(-1px);
+}
+
+
+/* ==========================================================================
+   App shell and category bar
+   ========================================================================== */
+
+.app-main {
+    width: 100%;
+}
+
+.app-shell {
+    width: 100%;
+    max-width: 1220px;
+    margin: 0 auto;
+    padding: 0 16px;
+}
+
+/* Home page ribbon wrapper.
+
+   This wrapper holds the sticky header, but the wrapper itself is only as tall
+   as the header (about 110px). A sticky child cannot leave its parent, so the
+   header - branding plus the Feedback / Download App / About Us buttons -
+   scrolled away almost immediately. Keeping the wrapper pinned does the same
+   job the .container wrapper already does on the calculator pages, so the
+   ribbon and its three buttons now stay visible for the whole page. */
+.top-ribbon-shell {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
+    z-index: 1200;
+}
+
+/* ==================================================
+   CATEGORY FILTER BAR STYLING START
+   This styling starts here.
+================================================== */
+.category-bar {
+    position: static;
+    margin: 0 -16px;
+    padding: 7px 16px 9px;
+        background:
+        linear-gradient(180deg, rgba(240, 247, 245, .99) 76%, rgba(240, 247, 245, .94));
+    border-bottom: 1px solid rgba(218, 234, 230, .72);
+}
+/* ==================================================
+   CATEGORY FILTER BAR STYLING END
+   This styling ends here.
+================================================== */
+
+/* The tools shell now opens with the category bar (the old section heading was
+   removed), so keep breathing room below the hero banner. */
+.app-shell > .category-bar:first-child {
+    margin-top: 16px;
+}
+
+/* A three-column grid on phones keeps three filters in every row, with equal
+   widths and equal heights. From 600px up this switches back to the wrapping
+   flex bar used on tablets and desktops. */
+.category-scroll {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-auto-rows: 1fr;
+    gap: 6px;
+    padding: 2px 0;
+    overflow: visible;
+}
+
+.filter-pill {
+    display: inline-flex;
+    flex: 0 1 auto;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    width: 100%;
+    min-width: 0;
+    min-height: 46px;
+    padding: 6px 6px;
+    border: 1px solid #d7e8e4;
+    border-radius: 12px;
+    background: #fff;
+    box-shadow: 0 1px 2px rgba(6, 67, 62, .035);
+    color: #3f6964;
+    font-size: 11px;
+    font-weight: 700;
+    line-height: 1.15;
+    text-align: center;
+    white-space: normal;
+    overflow-wrap: break-word;
+    transition:
+        background .16s ease,
+        border-color .16s ease,
+        color .16s ease,
+        box-shadow .16s ease;
+}
+
+.filter-pill span {
+    display: inline-grid;
+    place-items: center;
+    flex: none;
+    min-width: 18px;
+    height: 17px;
+    padding: 0 4px;
+    border-radius: 999px;
+    background: #edf6f3;
+    color: #65827d;
+    font-size: 9px;
+    font-weight: 800;
+    line-height: 1;
+    transition: background .16s ease, color .16s ease;
+}
+
+.filter-pill:hover {
+    border-color: #b6dbd5;
+    color: var(--teal-800);
+}
+
+.filter-pill.is-active {
+    border-color: var(--teal-700);
+    background: var(--teal-700);
+    box-shadow: 0 5px 12px rgba(8, 127, 123, .2);
+    color: #fff;
+}
+
+.filter-pill.is-active span {
+    background: rgba(255, 255, 255, .18);
+    color: #fff;
+}
+
+/* Very narrow phones (320px class): tighten the pills slightly so three still
+   fit per row without shrinking the text below a readable size. */
+@media (max-width: 359px) {
+    .filter-pill {
+        gap: 3px;
+        padding: 5px 4px;
+        font-size: 10.5px;
+    }
+
+    .filter-pill span {
+        min-width: 16px;
+        height: 16px;
+        padding: 0 3px;
+        font-size: 8.5px;
+    }
+}
+
+/* ==========================================================================
+   Tool grid
+   ========================================================================== */
+
+/* ==================================================
+   CALCULATOR CARDS GRID STYLING START
+   This styling starts here.
+================================================== */
+.tool-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px;
+    padding: 12px 0 30px;
+}
+/* ==================================================
+   CALCULATOR CARDS GRID STYLING END
+   This styling ends here.
+================================================== */
+
+/* ==================================================
+   CALCULATOR CARD STYLING START
+   This styling starts here.
+================================================== */
+.tool-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    padding: 6px 6px 0;
+    border: 1px solid #e0ece9;
+    border-radius: var(--radius-card);
+    background: var(--card);
+    box-shadow: var(--shadow-card);
+    color: var(--ink);
+    text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
+    transition:
+        transform .16s ease,
+        box-shadow .16s ease,
+        border-color .16s ease;
+}
+/* ==================================================
+   CALCULATOR CARD STYLING END
+   This styling ends here.
+================================================== */
+
+.tool-card:hover {
+    border-color: #b9ddd7;
+    box-shadow: 0 10px 24px rgba(5, 62, 58, .11);
+    transform: translateY(-2px);
+}
+
+.tool-card:active {
+    box-shadow: var(--shadow-card-press);
+    transform: scale(.975);
+}
+
+.tool-card[hidden] {
+    display: none !important;
+}
+
+/* ==================================================
+   CALCULATOR ICON STYLING START
+   This styling starts here.
+================================================== */
+.tool-thumb {
+    position: relative;
+    display: grid;
+    place-items: center;
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+    border-radius: 11px;
+    background:
+        radial-gradient(circle at 30% 22%, #ffffff 0%, var(--thumb-a, #e7f9f5) 56%, var(--thumb-b, #d5f1eb) 100%);
+}
+/* ==================================================
+   CALCULATOR ICON STYLING END
+   This styling ends here.
+================================================== */
+
+.tool-thumb::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image:
+        linear-gradient(rgba(8, 116, 110, .05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(8, 116, 110, .05) 1px, transparent 1px);
+    background-size: 15px 15px;
+    -webkit-mask-image: radial-gradient(circle at 50% 46%, #000 0%, transparent 78%);
+    mask-image: radial-gradient(circle at 50% 46%, #000 0%, transparent 78%);
+    pointer-events: none;
+}
+
+.tool-thumb::after {
+    content: "";
+    position: absolute;
+    bottom: 8%;
+    left: 18%;
+    width: 64%;
+    height: 13%;
+    border-radius: 50%;
+    background: rgba(5, 72, 68, .1);
+    filter: blur(7px);
+    pointer-events: none;
+}
+
+.tool-art {
+    position: relative;
+    z-index: 1;
+    width: 94%;
+    height: 94%;
+    filter: drop-shadow(0 7px 9px rgba(5, 73, 69, .14));
+    transition: transform .2s ease;
+}
+
+.tool-card:hover .tool-art {
+    transform: translateY(-2px) scale(1.025);
+}
+
+/* ==================================================
+   CALCULATOR NAME STYLING START
+   This styling starts here.
+================================================== */
+.tool-name {
+    display: -webkit-box;
+    overflow: hidden;
+    min-height: 42px;
+    padding: 8px 1px 9px;
+    color: #0b4743;
+    font-size: 11.5px;
+    font-weight: 750;
+    letter-spacing: -.012em;
+    line-height: 1.24;
+    text-align: center;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+}
+/* ==================================================
+   CALCULATOR NAME STYLING END
+   This styling ends here.
+================================================== */
+
+.tool-card[data-tone="teal"] {
+    --thumb-a: #e2f9f5;
+    --thumb-b: #c9f1e9;
+}
+
+.tool-card[data-tone="blue"] {
+    --thumb-a: #e9f5ff;
+    --thumb-b: #d1e9ff;
+}
+
+.tool-card[data-tone="amber"] {
+    --thumb-a: #fff7e8;
+    --thumb-b: #ffe8bd;
+}
+
+.tool-card[data-tone="violet"] {
+    --thumb-a: #f6f1ff;
+    --thumb-b: #e8dcff;
+}
+
+.tool-card[data-tone="slate"] {
+    --thumb-a: #f1f7f6;
+    --thumb-b: #dcebe8;
+}
+
+.tool-card[data-tone="rose"] {
+    --thumb-a: #fff1f4;
+    --thumb-b: #ffdbe4;
+}
+
+/* ==========================================================================
+   Mobile/tablet tool grid: cards flow in a normal vertical grid that follows
+   the available width (1 → 2 → 3 columns). Nothing scrolls sideways; the page
+   only scrolls down.
+   ========================================================================== */
+
+/* Very small phones (e.g. 320-359px): still three cards per row, with
+   tighter gaps, padding and labels so every card keeps its full icon. */
+/* ==================================================
+   MOBILE RESPONSIVE STYLING (MAX-WIDTH) START
+   Layout changes for this screen size range.
+   Here are the layout changes for small and large screens.
+================================================== */
+@media (max-width: 359px) {
+    .tool-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 6px;
+        padding: 10px 0 24px;
+    }
+
+    .tool-card {
+        padding: 4px 4px 0;
+        border-radius: 12px;
+    }
+
+    .tool-thumb {
+        border-radius: 9px;
+    }
+
+    .tool-name {
+        min-height: 36px;
+        padding: 6px 0 7px;
+        font-size: 9.5px;
+        line-height: 1.2;
+    }
+}
+/* ==================================================
+   MOBILE RESPONSIVE STYLING (MAX-WIDTH) END
+   This responsive styling ends here.
+================================================== */
+
+/* Phones (360-599px): three cards per row with comfortable spacing. */
+/* ==================================================
+   MOBILE RESPONSIVE STYLING (MAX-WIDTH) START
+   Layout changes for this screen size range.
+   Here are the layout changes for small and large screens.
+================================================== */
+@media (min-width: 360px) and (max-width: 599px) {
+    .tool-grid {
+        gap: 8px;
+    }
+
+    .tool-card {
+        padding: 5px 5px 0;
+    }
+
+    .tool-name {
+        min-height: 41px;
+        padding: 7px 1px 8px;
+        font-size: 10.5px;
+    }
+}
+/* ==================================================
+   MOBILE RESPONSIVE STYLING (MAX-WIDTH) END
+   This responsive styling ends here.
+================================================== */
+
+
+/* ==========================================================================
+   Engineering materials density reference
+   ========================================================================== */
+
+.density-section {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 24px 0 40px;
+    border-top: 1px solid rgba(200, 222, 217, .72);
+}
+
+.density-heading {
+    margin-bottom: 12px;
+}
+
+.density-heading h2 {
+    color: var(--ink);
+    font-size: 20px;
+    font-weight: 800;
+    letter-spacing: -.035em;
+    line-height: 1.2;
+}
+
+.density-heading p {
+    margin-top: 4px;
+    color: var(--muted);
+    font-size: 12px;
+    font-weight: 650;
+    line-height: 1.4;
+}
+
+.density-card {
+    overflow: hidden;
+    border: 1px solid #e0ece9;
+    border-radius: var(--radius-card);
+    background: var(--card);
+    box-shadow: var(--shadow-card);
+}
+
+/* ==================================================
+   DENSITY TABLE STYLING START
+   This styling starts here.
+================================================== */
+.density-table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+/* ==================================================
+   DENSITY TABLE STYLING END
+   This styling ends here.
+================================================== */
+
+.density-table th,
+.density-table td {
+    padding: 11px 14px;
+    text-align: left;
+    vertical-align: middle;
+}
+
+.density-table th {
+    background: var(--teal-50);
+    color: var(--teal-800);
+    font-size: 11.5px;
+    font-weight: 800;
+    letter-spacing: .01em;
+    line-height: 1.3;
+}
+
+.density-table th:first-child {
+    width: 56%;
+}
+
+.density-table th:last-child {
+    width: 44%;
+}
+
+.density-table th:last-child,
+.density-table td:last-child {
+    text-align: right;
+}
+
+.density-table td {
+    border-top: 1px solid var(--line);
+    color: var(--ink-soft);
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1.35;
+}
+
+.density-table td:last-child {
+    color: var(--ink);
+    font-weight: 750;
+    font-variant-numeric: tabular-nums;
+}
+
+.density-table tbody tr:first-child td {
+    border-top: 0;
+}
+
+.density-table tbody tr:hover {
+    background: #f8fcfb;
+}
+
+.density-note {
+    margin-top: 10px;
+    color: var(--muted);
+    font-size: 11px;
+    font-weight: 550;
+    line-height: 1.5;
+}
+
+/* ==========================================================================
+   Status messages
+   ========================================================================== */
+
+.loading-state,
+.data-error {
+    padding: 40px 16px;
+    color: var(--muted);
+    font-size: 12.5px;
+    font-weight: 650;
+    text-align: center;
+}
+
+.data-error {
+    color: #8a3e3e;
+}
+
+/* ==========================================================================
+   Tablet and desktop
+   ========================================================================== */
+
+/* Column counts switch at the breakpoints below: 2 (phones, base rule),
+   3 (large tablets/small laptops, min-width 600), 5 (desktop, 860) and
+   6 (wide desktop, 1120). */
+
+/* ==================================================
+   MOBILE RESPONSIVE STYLING (MIN-WIDTH) START
+   Layout changes for this screen size range.
+   Here are the layout changes for small and large screens.
+================================================== */
+@media (min-width: 600px) {
+    .hero-section {
+        padding: 10px 20px 4px;
+    }
+
+    .hero-banner {
+        border-radius: 26px;
+    }
+
+    .hero-content {
+        padding: 12px 20px 8px;
+    }
+
+    .app-shell {
+        padding-right: 20px;
+        padding-left: 20px;
+    }
+
+    .category-bar {
+        margin: 0 -20px;
+        padding: 9px 20px 11px;
+    }
+
+    /* Tablets keep the same equal-width grid, five filters per row. */
+    .category-scroll {
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+        gap: 7px;
+    }
+
+    .filter-pill {
+        width: 100%;
+        min-height: 44px;
+        padding: 5px 8px;
+        font-size: 11px;
+        white-space: normal;
+    }
+
+    /* Large phones / small tablets: four cards per row. */
+    .tool-grid {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 12px;
+        padding: 16px 0 36px;
+    }
+
+    .tool-card {
+        padding: 7px 7px 0;
+    }
+
+    .tool-name {
+        min-height: 46px;
+        font-size: 11.5px;
+    }
+
+    .density-section {
+        padding: 30px 0 46px;
+    }
+
+    .density-heading {
+        margin-bottom: 14px;
+    }
+
+    .density-heading h2 {
+        font-size: 23px;
+    }
+
+    .density-table th,
+    .density-table td {
+        padding: 12px 18px;
+    }
+
+    .density-table th {
+        font-size: 12px;
+    }
+
+    .density-table td {
+        font-size: 13.5px;
+    }
+}
+/* ==================================================
+   MOBILE RESPONSIVE STYLING (MIN-WIDTH) END
+   This responsive styling ends here.
+================================================== */
+
+/* ==================================================
+   MOBILE RESPONSIVE STYLING (MIN-WIDTH) START
+   Layout changes for this screen size range.
+   Here are the layout changes for small and large screens.
+================================================== */
+@media (min-width: 860px) {
+    .hero-content {
+        padding: 14px 24px 8px;
+    }
+
+    .hero-copy h1 {
+        font-size: clamp(2.1rem, 3.2vw, 2.9rem);
+    }
+
+    .hero-actions {
+        gap: 12px 14px;
+    }
+
+    .tool-grid {
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+        gap: 15px;
+    }
+
+    .tool-name {
+        min-height: 48px;
+        font-size: 12.5px;
+    }
+}
+/* ==================================================
+   MOBILE RESPONSIVE STYLING (MIN-WIDTH) END
+   This responsive styling ends here.
+================================================== */
+
+/* ==================================================
+   MOBILE RESPONSIVE STYLING (MIN-WIDTH) START
+   Layout changes for this screen size range.
+   Here are the layout changes for small and large screens.
+================================================== */
+@media (min-width: 1120px) {
+    .hero-content {
+        padding: 14px 28px 8px;
+    }
+
+    /* Wide screens: one single row, all filters equally sized. */
+    .category-scroll {
+        display: flex;
+        flex-wrap: nowrap;
+        gap: 5px;
+    }
+
+    /* All filters stay on one row with equal widths. The label may wrap onto a
+       second line rather than spilling past the pill's rounded border. */
+    .filter-pill {
+        flex: 1 1 0;
+        gap: 4px;
+        min-height: 38px;
+        padding: 4px 6px;
+        font-size: 10.5px;
+        line-height: 1.2;
+        white-space: normal;
+    }
+
+    .filter-pill span {
+        min-width: 17px;
+        height: 16px;
+        padding: 0 4px;
+        font-size: 8.5px;
+    }
+
+    .tool-grid {
+        grid-template-columns: repeat(6, minmax(0, 1fr));
+    }
+
+    .tool-name {
+        min-height: 50px;
+        font-size: 13px;
+    }
+}
+/* ==================================================
+   MOBILE RESPONSIVE STYLING (MIN-WIDTH) END
+   This responsive styling ends here.
+================================================== */
+
+/* ==================================================
+   MOBILE RESPONSIVE STYLING (MIN-WIDTH) START
+   Layout changes for this screen size range.
+   Here are the layout changes for small and large screens.
+================================================== */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        scroll-behavior: auto !important;
+        transition-duration: .01ms !important;
+        animation-duration: .01ms !important;
+    }
+}
+/* ==================================================
+   MOBILE RESPONSIVE STYLING (MIN-WIDTH) END
+   This responsive styling ends here.
+================================================== */
+
+/* ==========================================================================
+   Print
+   ========================================================================== */
+
+/* ==================================================
+   MOBILE RESPONSIVE STYLING (MIN-WIDTH) START
+   Layout changes for this screen size range.
+   Here are the layout changes for small and large screens.
+================================================== */
+@media print {
+    .header,
+    .category-bar,
+    .skip-link {
+        display: none !important;
+    }
+
+    .hero-section {
+        max-width: none;
+        padding: 0 0 12px;
+    }
+
+    .hero-banner {
+        border: 0;
+        border-radius: 0;
+        background: #fff;
+        box-shadow: none;
+        color: var(--ink);
+    }
+
+    .hero-banner::before,
+    .hero-art {
+        display: none !important;
+    }
+
+    .hero-copy {
+        max-width: none;
+        padding: 0 0 12px;
+    }
+
+    .hero-copy h1 {
+        color: var(--ink);
+        font-size: 22pt;
+    }
+
+    .hero-lede {
+        color: var(--ink-soft);
+    }
+
+    .hero-tag {
+        border-color: var(--line-strong);
+        background: #fff;
+        color: var(--ink-soft);
+    }
+
+    .hero-tag-sep {
+        color: var(--muted);
+    }
+
+    .app-shell {
+        max-width: none;
+        padding: 0;
+    }
+
+    .tool-grid {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 10px;
+        padding: 0;
+    }
+
+    .tool-card {
+        break-inside: avoid;
+        border-color: #c7d7d4;
+        box-shadow: none;
+    }
+
+    .tool-thumb {
+        border: 1px solid #d7e3e1;
+        background: #fff;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+
+    .tool-thumb::before,
+    .tool-thumb::after {
+        display: none !important;
+    }
+
+    .tool-art {
+        filter: none;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+
+    .density-section {
+        max-width: none;
+        padding-top: 18px;
+        border-top: 0;
+        break-inside: avoid;
+    }
+
+    .density-card {
+        box-shadow: none;
+    }
+
+    .density-table th {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+}
+/* ==================================================
+   MOBILE RESPONSIVE STYLING (MIN-WIDTH) END
+   This responsive styling ends here.
+================================================== */
+
+/* ==================================================
+   HOME PAGE STYLESHEET END
+   This CSS file ends here.
+================================================== */
