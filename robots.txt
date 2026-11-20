@@ -1,0 +1,20 @@
+# robots.txt for https://metalweightcalculator.online
+# CSS, JavaScript and image folders are deliberately left crawlable so search
+# engines can render every calculator page.
+
+User-agent: *
+Allow: /
+Disallow: /tools/
+Disallow: /.freebuff/
+Disallow: /.cloud-attachments/
+Disallow: /*.log$
+
+# AdSense crawlers. Mediapartners-Google reads page content to match ads,
+# AdsBot-Google checks landing pages. Both must be allowed on every page.
+User-agent: Mediapartners-Google
+Allow: /
+
+User-agent: AdsBot-Google
+Allow: /
+
+Sitemap: https://metalweightcalculator.online/sitemap.xml

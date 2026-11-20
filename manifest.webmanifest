@@ -1,0 +1,57 @@
+{
+    "id": "./",
+    "name": "Metal Weight Calculator",
+    "short_name": "Metal Weight Calculator",
+    "description": "Metal Weight Calculator - weight calculators for plates, sections, bars, pipes and spheres.",
+    "lang": "en",
+    "dir": "ltr",
+    "start_url": "./index.html",
+    "scope": "./",
+    "display": "standalone",
+    "background_color": "#f4f7f8",
+    "theme_color": "#087f7b",
+    "categories": [
+        "utilities",
+        "productivity"
+    ],
+    "prefer_related_applications": false,
+    "related_applications": [
+        {
+            "platform": "webapp",
+            "url": "./manifest.webmanifest",
+            "id": "./"
+        }
+    ],
+    "icons": [
+        {
+            "src": "icons/icon-192.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "any"
+        },
+        {
+            "src": "icons/icon-512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "any"
+        },
+        {
+            "src": "icons/maskable-192.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "maskable"
+        },
+        {
+            "src": "icons/maskable-512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "maskable"
+        },
+        {
+            "src": "favicon.png",
+            "sizes": "64x64",
+            "type": "image/png",
+            "purpose": "any"
+        }
+    ]
+}

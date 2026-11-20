@@ -1,0 +1,16 @@
+# ads.txt for https://metalweightcalculator.online
+#
+# Google AdSense is NOT activated yet, so this file intentionally lists no
+# authorized sellers. Nothing here is a real publisher ID.
+#
+# After your AdSense account is approved:
+#   1. Sign in to AdSense, open Sites, then ads.txt.
+#   2. Copy the exact line Google shows for this site. It always looks like:
+#        google.com, pub-XXXXXXXXXXXXXXXX, DIRECT, f08c47fec0942fa0
+#   3. Replace the commented placeholder below with that exact line, keep it on
+#      a single line with no extra spaces, and redeploy this file.
+#
+# Do not uncomment the placeholder until it contains your real publisher ID:
+# an ads.txt entry with a wrong ID can pause ad serving for the whole domain.
+#
+# google.com, pub-XXXXXXXXXXXXXXXX, DIRECT, f08c47fec0942fa0
